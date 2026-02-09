@@ -1,16 +1,16 @@
 package opg3;
 import java.util.Scanner;
-public class alder {
+public class Alder {
     public static void main(String[] args){
         Scanner input = new Scanner(System.in);
         System.out.print("Insert age here: ");
         int age = input.nextInt();
-        alder tjekAlder = new alder();
+        Alder tjekAlder = new Alder();
         String result = tjekAlder.institution(age);
         System.out.println(result);
         System.out.print("Type true if Girl, and false if boy: ");
         boolean isGirl = input.nextBoolean();
-        alder tjekHold = new alder();
+        Alder tjekHold = new Alder();
         String resultHold = tjekHold.team(isGirl,age);
         System.out.println(resultHold);
     }
