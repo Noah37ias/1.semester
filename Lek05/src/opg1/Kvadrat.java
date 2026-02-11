@@ -14,8 +14,8 @@ public class Kvadrat {
         while (i * i <= limit) {
             sum = sum + (i * i);
             i++;
-            IO.println("Sum: " + sum);
             IO.println("i: " + i);
+            IO.println("Sum: " + sum);
 
 
         }
