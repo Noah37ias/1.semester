@@ -1,25 +1,29 @@
 package opg4;
 
 public class InvestmentValue {
-    void main(){
+    void main() {
         IO.print("Insert investment, interest and amount of years");
         double investment = Double.parseDouble(IO.readln());
         double interest = Double.parseDouble(IO.readln());
-        double years = Double.parseDouble(IO.readln());
+        int years = Integer.parseInt(IO.readln());
 
+        double monthlyInterestRate = interest / 1200; //månedlig rente i decimal
 
-        double sum = futureInvestment(investment,interest,years);//Metode kald
+        futureInvestment(investment, monthlyInterestRate, years);//Metode kald
         //IO.println(sum);//Print resultat
     }
-    public double futureInvestment(double investment, double interest, double years){
-        double sum = investment;
-        int i = 0;
-        while(i<years){
-            sum = investment +(sum * (interest/100));
+
+    public void futureInvestment(double investment, double monthlyInterestRate, int years) {
+        int i = 1;
+        while (i <= years) {
+
+            double sum = investment * Math.pow(1 + monthlyInterestRate, i * 12);
             IO.println(sum);
             i++;
 
         }
-        return sum;
+
     }
+
 }
+
