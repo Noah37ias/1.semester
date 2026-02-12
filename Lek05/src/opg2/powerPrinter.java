@@ -2,12 +2,15 @@ package opg2;
 
 public class powerPrinter {
     void main() {
-        //printPowersOfTwo(); //opgave 1
+        IO.println("Opgave a:");
+        printPowersOfTwo(); //opgave a
 
-        //int total = sumEvenInts(7,25); //opgave 2
-        // IO.println(total);
+        IO.println("Opgave b");
+        int total = sumEvenInts(7,25); //opgave b
+        IO.println(total);
 
-        int sumOf = sumOddDigits(1234567);
+        IO.println("Opgave c");
+        int sumOf = sumOddDigits(1234567);//opgave c
 
         IO.println(sumOf);
     }
@@ -27,7 +30,7 @@ public class powerPrinter {
         while (lower < upper) {// så længe lower er mindre end upper fortsæt
             if (lower % 2 == 0) {//Tjek om tallet er lige
                 sum = sum + lower;//Tilføj til total sum
-                //IO.println(sum); //til test
+               // IO.println(sum); //til test
             }
             lower++;//Ryk vores lower en op
             //IO.println(lower); //til test
