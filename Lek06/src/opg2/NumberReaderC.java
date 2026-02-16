@@ -13,8 +13,8 @@ public class NumberReaderC {
 
         for (int i = 0; i < amount; i++) {
             int number = input.nextInt();
-            if(number == max){
-                count ++;
+            if (number == max) {
+                count++;
             }
             if (number > max) {
                 max = number;
