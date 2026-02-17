@@ -84,8 +84,8 @@ public class Stars {
     }
 
     public static void exD(int rowCount) {
-        int middle = rowCount / 2;
-        IO.println(middle);
+        int middle = rowCount / 2;//Find midten af antal rows
+        IO.println(middle);//til tjek
         for (int row = 1; row <= rowCount; row++) {
             // print row number
             IO.print(String.format("%2d: ", row));
@@ -94,7 +94,6 @@ public class Stars {
             if (row > middle) {
                 effectiveRow = rowCount - row + 1;
             }
-            IO.println(effectiveRow);
 
             int dashCount = middle - effectiveRow;
             int starCount = 2 * effectiveRow - 1;
