@@ -16,7 +16,7 @@ public class NumberReaderD {
             if (number == lastNumber) { //Hvis vores number er det samme som sidste lastNumber
                 count++;//Skal vi have count 1 op
             } else { //Ellers skal vi
-                if (count > 1) {//Hvis count er større end en print nummer og antal gange
+                if (count > 1) {//Hvis count er større end 1 print nummer og antal gange
                     IO.println(lastNumber + "(" + count + ")");
                 }
                 lastNumber = number;//Gem forrige nummer

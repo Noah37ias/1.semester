@@ -11,7 +11,7 @@ public class NumberReaderB {
 
         for(int i = 0;i < amount; i++) {
             int numbers = input.nextInt();
-            sum = numbers + sum;
+            sum = numbers + sum;//Læg numbers til sum
             IO.println(sum);
         }
     }

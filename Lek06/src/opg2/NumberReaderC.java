@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 public class NumberReaderC {
     void main() {
-        IO.println("Amount of numbers: ");
+        IO.print("Amount of numbers: ");
         int amount = Integer.parseInt(IO.readln());
-        IO.println("Insert " + amount + " numbers between 1 and 99: ");
+        IO.print("Insert " + amount + " numbers between 1 and 99: ");
         Scanner input = new Scanner(System.in);
         int max = 0;
         int count = 1;
