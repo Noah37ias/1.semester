@@ -3,13 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/1.semester.iml" filepath="$PROJECT_DIR$/.idea/1.semester.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek01/Lek01.iml" filepath="$PROJECT_DIR$/Lek01/Lek01.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek02/Lek02.iml" filepath="$PROJECT_DIR$/Lek02/Lek02.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek03/Lek03.iml" filepath="$PROJECT_DIR$/Lek03/Lek03.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek04/Lek04.iml" filepath="$PROJECT_DIR$/Lek04/Lek04.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek05/Lek05.iml" filepath="$PROJECT_DIR$/Lek05/Lek05.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek06/Lek06.iml" filepath="$PROJECT_DIR$/Lek06/Lek06.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek07/Lek07.iml" filepath="$PROJECT_DIR$/Lek07/Lek07.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek01 Intro/Lek01.iml" filepath="$PROJECT_DIR$/Lek01 Intro/Lek01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek02 Variable og if/Lek02.iml" filepath="$PROJECT_DIR$/Lek02 Variable og if/Lek02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek03 If sætninger/Lek03.iml" filepath="$PROJECT_DIR$/Lek03 If sætninger/Lek03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek04 Metoder/Lek04.iml" filepath="$PROJECT_DIR$/Lek04 Metoder/Lek04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek05 While statements/Lek05.iml" filepath="$PROJECT_DIR$/Lek05 While statements/Lek05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek06 For statements/Lek06.iml" filepath="$PROJECT_DIR$/Lek06 For statements/Lek06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek07 Arrays/Lek07.iml" filepath="$PROJECT_DIR$/Lek07 Arrays/Lek07.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek07 Arrays/Lek08 JavaFX/Lek08 JavaFX.iml" filepath="$PROJECT_DIR$/Lek07 Arrays/Lek08 JavaFX/Lek08 JavaFX.iml" />
     </modules>
   </component>
 </project>

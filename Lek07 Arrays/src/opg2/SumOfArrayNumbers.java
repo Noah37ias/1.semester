@@ -15,6 +15,7 @@ public class SumOfArrayNumbers {
     }
     return total;
     }
+
     int total2 = 0;
     public int sum2(int[]t){
         for(int element : t){

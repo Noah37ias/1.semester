@@ -17,7 +17,7 @@ public class SumOfTwoArrays {
         IO.println(UnEven2);
 
     }
-
+//Opgave 3
     public int[] sumArrays(int[] a, int[] b) {
         int[] c = new int[5];
         for (int i = 0; i < c.length; i++) {
@@ -25,7 +25,7 @@ public class SumOfTwoArrays {
         }
         return c;
     }
-
+//Opgave 4
     public boolean hasUnEven(int[] t) {
         for (int i = 0; i < t.length; i++) {
             if (t[i] % 2 == 1) {
