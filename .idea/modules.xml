@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/1.semester.iml" filepath="$PROJECT_DIR$/.idea/1.semester.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lek 09 Klasser og objekter/Lek 09 Klasser og objekter.iml" filepath="$PROJECT_DIR$/Lek 09 Klasser og objekter/Lek 09 Klasser og objekter.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lek01 Intro/Lek01.iml" filepath="$PROJECT_DIR$/Lek01 Intro/Lek01.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lek02 Variable og if/Lek02.iml" filepath="$PROJECT_DIR$/Lek02 Variable og if/Lek02.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lek03 If sætninger/Lek03.iml" filepath="$PROJECT_DIR$/Lek03 If sætninger/Lek03.iml" />
@@ -12,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/Lek06 For statements/Lek06.iml" filepath="$PROJECT_DIR$/Lek06 For statements/Lek06.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lek07 Arrays/Lek07.iml" filepath="$PROJECT_DIR$/Lek07 Arrays/Lek07.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lek08 JavaFX/Lek08 JavaFX.iml" filepath="$PROJECT_DIR$/Lek08 JavaFX/Lek08 JavaFX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lek09 Klasser og objekter/Lek09 Klasser og objekter.iml" filepath="$PROJECT_DIR$/Lek09 Klasser og objekter/Lek09 Klasser og objekter.iml" />
     </modules>
   </component>
 </project>
