@@ -23,8 +23,8 @@ public class Employee {
     public String toString() {
         return ("***********\n" +
                 "Name: " + name + "\n" +
-                "Trainee: " + trainee + "\n"+
-                "Age: " + age + "\n"+
+                "Trainee: " + trainee + "\n" +
+                "Age: " + age + "\n" +
                 "***********");
     }
 

@@ -16,9 +16,9 @@ public class Car {
     @Override
     public String toString() {
         return ("***********\n" +
-                "* " + brand +" "+ color+"\n" +
-                "* " + regNo + "\n"+
-                "* " + km + " km" + "\n"+
+                "* " + brand + " " + color + "\n" +
+                "* " + regNo + "\n" +
+                "* " + km + " km" + "\n" +
                 "***********");
     }
 
