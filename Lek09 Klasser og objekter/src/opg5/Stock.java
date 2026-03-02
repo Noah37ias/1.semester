@@ -1,15 +1,14 @@
 package opg5;
 
 public class Stock {
-    double currentPrice;
-    String name;
-    String Symbol;
-    double priceChange;
+    private double currentPrice = 34.35;
+    private String name;
+    private String symbol;
+    private double previousClosingPrice = 34.5;
 
-    public Stock(double currentPrice,String name, String symbol){
-        this.currentPrice = currentPrice;
+    public Stock(String name, String symbol){
         this.name = name;
-        this.Symbol = symbol;
+        this.symbol = symbol;
     }
     public double getCurrentPrice(){
         return currentPrice;
@@ -20,7 +19,16 @@ public class Stock {
     public String getName(){
         return name;
     }
-    public void setCurrentPrice(String name){
-        this.currentPrice += currentPrice;
+    public double getChangePercent(){
+        return ((this.currentPrice - this.previousClosingPrice)/this.previousClosingPrice)*100;
+    }
+    public void setPreviousClosingPrice(double previousClosingPrice){
+        this.previousClosingPrice = previousClosingPrice;
+    }
+    public String toString(){
+        return "Name: " + this.name + ", Symbol: " + this.symbol + "\n" +
+                "Current Price: " + this.currentPrice+ "$"  +"\n" +
+                "Previous Closing Price: " + this.previousClosingPrice + "$" +"\n" +
+                "Change: " + this.getChangePercent() +"%";
     }
 }

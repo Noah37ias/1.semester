@@ -21,9 +21,11 @@ public class Employee {
 
     @Override
     public String toString() {
-        return String.format("Employee(%s, %s,%s)",
-                this.name, this.trainee, this.age
-        );
+        return ("***********\n" +
+                "Name: " + name + "\n" +
+                "Trainee: " + trainee + "\n"+
+                "Age: " + age + "\n"+
+                "***********");
     }
 
     public String getName() {
