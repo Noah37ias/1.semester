@@ -21,5 +21,4 @@ public class RollTwoDiceGame {
         IO.println("Roll count: "+ p1.getRollCount());
 
     }
-
 }
