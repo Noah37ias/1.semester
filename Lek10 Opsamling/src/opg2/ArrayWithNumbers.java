@@ -18,7 +18,6 @@ public class ArrayWithNumbers {
 
             for (int j = randomIndex; j < remaining - 1; j++) {
                 source[j] = source[j + 1];
-
             }
             source[remaining-1] = 0;
             remaining--;
