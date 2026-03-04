@@ -8,7 +8,7 @@ public class CrapsGame {
     }
     public static void printRules() {
         IO.println("=====================================================");
-        IO.println("Rules of RollOneDie:");
+        IO.println("Rules of Crap game:");
         IO.println("The player throws one die as long as he/she wants.");
         IO.println("=====================================================");
     }

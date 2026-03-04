@@ -1,10 +1,9 @@
-package pig;
+package pigextended;
 
 public class Player {
     private Die die1;
     private int rollCount;
     private int points;
-    private int winPoints;
 
     public Player() {
         this.die1 = new Die();
@@ -24,8 +23,7 @@ public class Player {
 
     public void playTurn() {
         int roundPoints = 0;
-
-        IO.print("Roll? ");
+        IO.println("Roll?");
         IO.readln();
         boolean finished = false;
         while (!finished) {
@@ -34,9 +32,9 @@ public class Player {
             IO.println(String.format("Rolling... %d", die1.getFaceValue()));
 
             if (die1.getFaceValue() == 1) {
-                IO.println("Your round is over, total points now: " + points );
-                finished = true;
+                IO.println("Your round is over ");
 
+                finished = true;
             } else {
                 roundPoints+= die1.getFaceValue();
                 IO.println("Points this round: " + roundPoints);
@@ -44,8 +42,7 @@ public class Player {
                 String again = IO.readln();
                 if (again.equalsIgnoreCase("n")) {
                     points += roundPoints;
-                    IO.println("Your round is over, total points now: " + points );
-                    IO.println();
+                    IO.println("Your round is over points now: " + points );
                     finished = true;
                 }
             }
