@@ -8,7 +8,7 @@ public class PigGame {
         Player player2 = new Player();
 
         IO.println("Playing pig game");
-        IO.println("Insert amount of points to win: ");
+        IO.print("Insert amount of points to win: ");
         int winPoints = Integer.parseInt(IO.readln());
         while(player1.getPoints() < winPoints || player2.getPoints()< winPoints) {
             IO.println("*****************");
@@ -50,8 +50,9 @@ public class PigGame {
     public static void printResults(Player player1, Player player2) {
         IO.println("Results");
         IO.println("-------");
-        IO.println("Roll count: "+ player1.getRollCount());
-        IO.println("Roll count: "+ player2.getRollCount());
+
+        IO.println("Player 1 average roll count pr round: "+ (double) player1.getRollCount()/player1.getRoundNumber());
+        IO.println("Player 2 average roll count pr round: "+ (double) player2.getRollCount()/player2.getRoundNumber());
     }
 }
 
