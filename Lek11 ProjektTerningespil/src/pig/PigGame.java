@@ -51,8 +51,8 @@ public class PigGame {
         IO.println("Results");
         IO.println("-------");
 
-        IO.println("Player 1 average roll count pr round: "+ (double) player1.getRollCount()/player1.getRoundNumber());
-        IO.println("Player 2 average roll count pr round: "+ (double) player2.getRollCount()/player2.getRoundNumber());
+        IO.println("Player 1 average roll count per round: " + (double) player1.getRollCount()/player1.getRoundNumber());
+        IO.println("Player 2 average roll count per round: " + (double) player2.getRollCount()/player2.getRoundNumber());
     }
 }
 
