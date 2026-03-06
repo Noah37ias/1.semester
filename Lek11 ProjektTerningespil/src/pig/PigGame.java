@@ -1,36 +1,35 @@
 package pig;
 
 public class PigGame {
-    void main(){
-        printRules();
+    void main() {
+        printRules();//Bruger printRules metoden
         IO.println();
-        Player player1 = new Player();
-        Player player2 = new Player();
+        Player player1 = new Player();//Opretter player1
+        Player player2 = new Player();//Opretter player2
 
         IO.println("Playing pig game");
-        IO.print("Insert amount of points to win: ");
-        int winPoints = Integer.parseInt(IO.readln());
-        while(player1.getPoints() < winPoints || player2.getPoints()< winPoints) {
+        while (player1.getPoints() <= 100 || player2.getPoints() <= 100) {//Så længe man er under 100 fortsæt
             IO.println("*****************");
             IO.println("* Player 1 Turn *");
             IO.println("*****************");
 
-            player1.playTurn();
-            if(player1.getPoints() >= winPoints) {
+            player1.playTurn();//player1 spiller nu(Gør brug af playTurn metoden)
+            if (player1.getPoints() >= 100) {//Hvis man kommer over 100 points
                 IO.println("Player 1 Wins!");
-                break;
+                break;//Stopper while løkken så player2 ikke påbegynder sin tur
             }
             IO.println("*****************");
             IO.println("* Player 2 Turn *");
             IO.println("*****************");
 
-            player2.playTurn();
-            if(player2.getPoints() >= winPoints) {
+            player2.playTurn();//player2 spiller nu(Gør brug af playTurn metoden)
+            if (player2.getPoints() >= 100) {//Hvis man kommer over 100 points
                 IO.println("Player 2 Wins!");
-                break;
+                break;//Stop while løkken
             }
         }
-        printResults(player1,player2);
+        //printResults(player1);
+        //printResults(player2);
 
         IO.println();
 
@@ -47,12 +46,11 @@ public class PigGame {
         IO.println("=====================================================");
     }
 
-    public static void printResults(Player player1, Player player2) {
+    public static void printResults(Player player) {
         IO.println("Results");
         IO.println("-------");
+        IO.println("Roll count: " + player.getRollCount());
 
-        IO.println("Player 1 average roll count per round: " + (double) player1.getRollCount()/player1.getRoundNumber());
-        IO.println("Player 2 average roll count per round: " + (double) player2.getRollCount()/player2.getRoundNumber());
     }
 }
 

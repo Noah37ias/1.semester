@@ -1,4 +1,4 @@
-package pigextended;
+package pigExtended;
 
 public class Die {
     private int faceValue;

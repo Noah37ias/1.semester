@@ -8,6 +8,7 @@ public class RollTwoDiceGame {
         Player p1 = new Player();
         p1.play();
     }
+
     public static void printRules() {
         IO.println("=====================================================");
         IO.println("Rules of RollOneDie:");
@@ -18,7 +19,7 @@ public class RollTwoDiceGame {
     public static void printResults(Player p1) {
         IO.println("Results");
         IO.println("-------");
-        IO.println("Roll count: "+ p1.getRollCount());
+        IO.println("Roll count: " + p1.getRollCount());
 
     }
 }
