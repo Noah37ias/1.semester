@@ -72,4 +72,13 @@ public class Student {
         }
         return average / grades.length;
     }
+    public int correctAnswerCount(){
+        int count = 0;
+        for (int i = 0; i < answers.length; i++) {
+            if(answers[i]==MultipleChoiceTest.getCorrectAnswer()[i]){
+                count++;
+            }
+        }
+        return count;
+    }
 }

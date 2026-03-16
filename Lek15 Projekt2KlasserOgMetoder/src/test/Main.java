@@ -57,6 +57,6 @@ public class Main {
             IO.println(Arrays.toString(student.getAnswers()));
 
         }
-
+        IO.println(student1.correctAnswerCount());
     }
 }
