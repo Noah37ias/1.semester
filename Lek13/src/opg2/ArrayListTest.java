@@ -8,7 +8,7 @@ public class ArrayListTest {
         ArrayList<Integer> list = new ArrayList<>();
 
         for(int i = 0; i < 10; i++) {
-            list.add((int) (Math.random() * 67));//tal mellem 0 og 66 10 gange
+            list.add((int) (Math.random() * 67)); //tal mellem 0 og 66 10 gange
         }
         for(Integer i : list) {
             IO.println(i);
@@ -51,11 +51,11 @@ public class ArrayListTest {
     return max;
     }
     public double average(ArrayList<Integer> list) {
-        double sum = 0;
+       /* double sum = 0;
         for (Integer i : list) {
             sum = sum + i;
-        }
-        return sum / list.size();
+        }*/
+        return (double) sum(list) / list.size();
     }
 
     public int zeroes(ArrayList<Integer> list) {

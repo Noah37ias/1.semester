@@ -11,7 +11,7 @@ public class Player {
 
     public void throwDie() {
         die1.roll();//Bruger roll fra die klassen
-        rollCount++;
+        rollCount++;//Tæller rollCount en op hver gang roll bliver brugt
     }
 
     public int getRollCount() {

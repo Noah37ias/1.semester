@@ -10,6 +10,7 @@ public class FunWithArrayList {
         for(int i = 0; i < 10; i++) {
             list.add((int) (Math.random() * 10)+1);//tal mellem 1 og 10
         }
+
         for(Integer i : list) {
             IO.println(i);
         }
