@@ -19,7 +19,6 @@ public class MultipleChoiceTest {
                 case 2 -> muligheder[i] = 'C';
                 default -> muligheder[i] = 'D';
             }
-
         }
         return muligheder;
     }
