@@ -12,7 +12,11 @@ public class Team {
         this.room = room;
         this.students = new ArrayList<>();
     }
-
+    public Team(){
+        this.name = "";
+        this.room = "";
+        this.students = new ArrayList<>();
+    }
     public void addStudent(Student student) {
         students.add(student);
     }
@@ -73,16 +77,22 @@ public class Team {
         this.room = room;
     }
 
-    public Object getStudents() {
+    public ArrayList<Student> getStudents() {
         return students;
     }
 
     public double averageGradeTeam() {
-            int average = 0;
+            double totalSum = 0;
+            double totalGradeCount = 0;
+
             for(Student student : students){
-                average += student.averageGrade();
+                int[] grades = student.getGrades();
+                for(int grade : grades) {
+                    totalSum += grade;
+                }
+                totalGradeCount += grades.length;
             }
-            return (double) average / students.size();
+            return totalSum / totalGradeCount;
         }
 
     public Student[] highScoreStudents(double minAverage) {
@@ -102,5 +112,38 @@ public class Team {
         }
         return goodGuy;
     }
+    public int[] correctAnswerCounts(){
+        int[] list = new int[students.size()];
+        int index = 0;
+        for (Student student : students) {
+            list[index] = student.correctAnswerCount();
+            index++;
+        }
+        return list;
+    }
+    public int[] correctQuestionAnswerCounts() {
+        int[] correctAnswerList = new int[10];
 
+        for (int i = 0; i < 10; i++) {
+            int count = 0;
+            for (Student student : students) {
+                if (student.getAnswers()[i] == MultipleChoiceTest.getCorrectAnswer()[i]) {
+                    count++;
+                }
+
+            }
+            correctAnswerList[i] = count;
+
+        }
+        return correctAnswerList;
+    }
+    public String[] studentInfos(Student student) {
+        String[] info = new String[3];
+
+        info[0] = student.getName();
+        info[1] = String.valueOf(student.averageGrade());
+        info[2] = String.valueOf(student.correctAnswerCount());
+
+        return info;
+    }
 }

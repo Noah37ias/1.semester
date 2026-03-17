@@ -14,6 +14,10 @@ public class Student {
         this.grades = grades;
         this.answers = new char[10];
     }
+    public Student(){
+        this.name = "";
+        this.active = false;
+    }
 
     @Override
     public String toString() {
@@ -65,8 +69,8 @@ public class Student {
         return best;
     }
 
-    public int averageGrade() {
-        int average = 0;
+    public double averageGrade() {
+        double average = 0;
         for (int i = 0; i < grades.length; i++) {
             average += grades[i];
         }

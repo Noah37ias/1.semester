@@ -14,8 +14,8 @@ public class Main {
         Team team2 = new Team("25Y", "A1.28");
         IO.println(team2.toString());
 
-        int[] gradesStudent1 = {7, 4, 7, 10};
-        int[] gradesStudent2 = {12, 12, 10, 12};
+        int[] gradesStudent1 = {7};
+        int[] gradesStudent2 = {12, 12, 10, 12,12,12};
         int[] gradesStudent3 = {1, 2, 3, 4};
         int[] gradesStudent4 = {1};
 
@@ -32,8 +32,8 @@ public class Main {
         team2.addStudent(student4);
         team2.addStudent(student5);
         team2.addStudent(student6);
+        Team[] teams = {team1, team2};
 
-        Student[] allStudents = {student1, student2, student3, student4, student5, student6};
 
         IO.println("Students in team 25V:");
         IO.println(team1.getStudents().toString());
@@ -51,12 +51,35 @@ public class Main {
         IO.println(student1.averageGrade());
         IO.println(team1.averageGradeTeam());
         IO.println(Arrays.toString(team1.highScoreStudents(8)));
+        for (Team t : teams) {
+            for (Student student : t.getStudents()) {
+                student.setAnswers(MultipleChoiceTest.generateAnswers(10));
+                IO.println(Arrays.toString(student.getAnswers()));
 
-        for (Student student : allStudents) {
-            student.setAnswers(MultipleChoiceTest.generateAnswers(10));
-            IO.println(Arrays.toString(student.getAnswers()));
-
+            }
         }
         IO.println(student1.correctAnswerCount());
+        IO.println(Arrays.toString(team1.correctAnswerCounts()));
+        IO.println(Arrays.toString(team2.correctAnswerCounts()));
+
+        for (Team t : teams) {
+            for (Student student : t.getStudents()) {
+                student.setAnswers(MultipleChoiceTest.generateAnswers(10));
+                IO.println(Arrays.toString(student.getAnswers()));
+            }
+            }
+        for (Team t : teams) { // får hvert studerenes info
+            for (Student student : t.getStudents()) {
+                String[] info = t.studentInfos(student);
+                IO.println(String.format("%-5s | Avg. grade: %5.2f  | Correct: %s", info[0], Double.parseDouble(info[1]), info[2]));
+            }
+        }
+        for (Team t : teams) { // får hvert hold's samlet korrekt pr spørgsmål
+            IO.println("Times that questions where correct of team " + t.getName());
+            IO.println(Arrays.toString(t.correctQuestionAnswerCounts()));
+        }
+        IO.println(team1.averageGradeTeam());
     }
-}
+    }
+
+

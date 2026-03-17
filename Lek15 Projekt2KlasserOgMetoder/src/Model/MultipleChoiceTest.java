@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class MultipleChoiceTest {
     private static Random random = new Random();
-    private static char[] correctAnswer = {'A','B','C','D','A','B','C','D','A','B'};
+    private static char[] correctAnswer = {'A','A','A','A','A','A','A','A','A','A'};
 
 
     public static char[] generateAnswers(int size) {
@@ -31,4 +31,5 @@ public class MultipleChoiceTest {
     public static void setCorrectAnswer(char[] correctAnswer) {
         MultipleChoiceTest.correctAnswer = correctAnswer;
     }
+
 }
