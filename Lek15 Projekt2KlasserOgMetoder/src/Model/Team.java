@@ -95,7 +95,7 @@ public class Team {
             return totalSum / totalGradeCount;
         }
 
-    public Student[] highScoreStudents(double minAverage) {
+    public Student[] highScoreStudents(double minAverage) {//muligvis fejl
         int count = 0;
         for (Student student : students) {
             if (minAverage < student.averageGrade() && student.isActive()) {
