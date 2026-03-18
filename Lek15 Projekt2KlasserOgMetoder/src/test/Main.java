@@ -57,7 +57,7 @@ public class Main {
         IO.println("Student in team 1 with average grade over 8 "+ Arrays.toString(team1.highScoreStudents(8)));
         for (Team t : teams) {
             for (Student student : t.getStudents()) {
-                student.setAnswers(MultipleChoiceTest.generateAnswers(10));
+                student.setAnswers(MultipleChoiceTest.generateAnswers());
                 IO.print(student.getName() + " ");
                 IO.println(Arrays.toString(student.getAnswers()));
             }
@@ -68,10 +68,11 @@ public class Main {
 
         for (Team t : teams) {
             for (Student student : t.getStudents()) {
-                student.setAnswers(MultipleChoiceTest.generateAnswers(10));
+                student.setAnswers(MultipleChoiceTest.generateAnswers());
                 IO.println(Arrays.toString(student.getAnswers()));
             }
             }
+        IO.println("DET ER HER");
         for (Team t : teams) { // får hvert studerenes info
             for (Student student : t.getStudents()) {
                 String[] info = t.studentInfos(student);
