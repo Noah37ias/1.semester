@@ -26,19 +26,19 @@ public class GuiDemo2 extends Application {
     int number = 0;
 
     private void initContent(GridPane pane) {
-        pane.setGridLinesVisible(true);
+        pane.setGridLinesVisible(false);
         pane.setPadding(new Insets(20));
         pane.setHgap(10);
         pane.setVgap(10);
 
         // add a label to the pane (at col=0, row=0)
         Label lblName = new Label("Number:");
-        pane.add(lblName, 0, 2);
+        pane.add(lblName, 0, 1);
 
         // add a text field to the pane (at col=1, row=0, extending 2 columns and 1 row)
 //        Deleted here is:
 //        TextField txfName = new TextField();
-        pane.add(txfName, 1, 2, 1, 1);
+        pane.add(txfName, 1, 1, 1, 1);
 
         // add a button to the pane (at col=1, row=1)
         Button btnUpperCase = new Button("Inc");
@@ -49,20 +49,20 @@ public class GuiDemo2 extends Application {
 
         // add a button to the pane (at col=2, row=1)
         Button btnLowerCase = new Button("Dec");
-        pane.add(btnLowerCase, 3, 3);
+        pane.add(btnLowerCase, 3, 2);
         GridPane.setMargin(btnLowerCase, new Insets(10, 10, 0, 10));
         // connect a method to the button
         btnLowerCase.setOnAction(event -> this.lowerCaseAction());
     }
 
     private void upperCaseAction() {
-        number--;
+        number++;
         txfName.setText(String.valueOf(number));
 
     }
 
     private void lowerCaseAction() {
-        number++;
+        number--;
         txfName.setText(String.valueOf(number));
     }
 }
