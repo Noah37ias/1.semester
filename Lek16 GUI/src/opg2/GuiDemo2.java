@@ -38,18 +38,20 @@ public class GuiDemo2 extends Application {
         // add a text field to the pane (at col=1, row=0, extending 2 columns and 1 row)
 //        Deleted here is:
 //        TextField txfName = new TextField();
+        txfName.setPrefWidth(50);
+        txfName.setMaxWidth(50);
         pane.add(txfName, 1, 1, 1, 1);
 
         // add a button to the pane (at col=1, row=1)
         Button btnUpperCase = new Button("Inc");
-        pane.add(btnUpperCase, 3, 0);
+        pane.add(btnUpperCase, 2, 0);
         GridPane.setMargin(btnUpperCase, new Insets(10, 10, 0, 10));
         // connect a method to the button
         btnUpperCase.setOnAction(event -> upperCaseAction());
 
         // add a button to the pane (at col=2, row=1)
         Button btnLowerCase = new Button("Dec");
-        pane.add(btnLowerCase, 3, 2);
+        pane.add(btnLowerCase, 2, 2);
         GridPane.setMargin(btnLowerCase, new Insets(10, 10, 0, 10));
         // connect a method to the button
         btnLowerCase.setOnAction(event -> this.lowerCaseAction());
