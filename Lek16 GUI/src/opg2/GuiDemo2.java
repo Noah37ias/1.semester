@@ -57,11 +57,12 @@ public class GuiDemo2 extends Application {
 
     private void upperCaseAction() {
         number--;
+        txfName.setText(String.valueOf(number));
+
     }
 
     private void lowerCaseAction() {
-
         number++;
-
+        txfName.setText(String.valueOf(number));
     }
 }
