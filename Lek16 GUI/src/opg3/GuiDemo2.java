@@ -74,8 +74,8 @@ public class GuiDemo2 extends Application {
     private void calculateAction() {
         int investment = Integer.parseInt(txfInvestment.getText());
         int  years = Integer.parseInt(txfYears.getText());
-        double interst = Double.parseDouble(txfInterst.getText());
-        double futureValue = investment * years * (interst/12);
+        double interst = Double.parseDouble(txfInterst.getText())/100;
+        double futureValue = investment * Math.pow((1 + interst/12), years * 12);
         txfFutureValue.setText(futureValue + "");
     }
 }
