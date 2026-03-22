@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -23,7 +24,7 @@ public class GuiDemo2 extends Application {
     // -------------------------------------------------------------------------
 
    private final TextField txfName = new TextField();
-    private final TextField txfNames = new TextField("Noah");
+    private final TextArea txfNames = new TextArea();
 
 
     private void initContent(GridPane pane) {
@@ -48,12 +49,12 @@ public class GuiDemo2 extends Application {
         // connect a method to the button
         btnUpperCase.setOnAction(event -> upperCaseAction());
 
-        pane.add(txfNames, 0, 3, 2, 6);
+        pane.add(txfNames, 0, 3, 2, 3);
     }
 
     private void upperCaseAction() {
         String names = txfName.getText().trim();
-        txfNames.setText(txfNames.getText()+names);
-    }
+        txfNames.setText(txfNames.getText()+ "\n " + names);
 
+    }
 }
