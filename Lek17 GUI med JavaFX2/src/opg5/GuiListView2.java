@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuiListView2 extends Application {
+    //ArrayList med drenge navne
     private final ArrayList<String> boyNames = new ArrayList<>(
             List.of("Noah","Sten","Seb","Arian")
     );
+    //ArrayList med piger
     private final ArrayList<String> girlNames = new ArrayList<>(
             List.of("Ellen","Mille","Seb","Arian")
     );
@@ -33,13 +35,13 @@ public class GuiListView2 extends Application {
 
     // -------------------------------------------------------------------------
 
-    private final TextField txfName = new TextField();
-    private final ListView<String> lvwNames = new ListView<>();
-    private final ToggleGroup group = new ToggleGroup();
-    RadioButton rbnB = new RadioButton();
-    RadioButton rbn = new RadioButton();
-    HBox boxG = new HBox();
-    HBox boxB = new HBox();
+    private final TextField txfName = new TextField();//Textfield til at tilføje navne
+    private final ListView<String> lvwNames = new ListView<>();//Listen med navne
+    private final ToggleGroup group = new ToggleGroup();//Til vores radian buttons
+    RadioButton rbnB = new RadioButton();//Radian button til drenge
+    RadioButton rbn = new RadioButton();//Radian button til piger
+    HBox boxG = new HBox();//Til piger
+    HBox boxB = new HBox();//Til Drenge
 
 
     private void initContent(GridPane pane) {
@@ -48,10 +50,10 @@ public class GuiListView2 extends Application {
         pane.setHgap(10);
         pane.setVgap(10);
 
-        // column 0
+        // Label navn
         Label lblName = new Label("Name:");
         pane.add(lblName, 0, 1);
-
+        //Label navne
         Label lblNames = new Label("Names:");
         pane.add(lblNames, 0, 0);
         GridPane.setValignment(lblNames, VPos.TOP);
@@ -80,16 +82,16 @@ public class GuiListView2 extends Application {
         lvwNames.setPrefHeight(200);
         lvwNames.getItems().setAll(boyNames);
 
+        //Bruges til vores selection
         lvwNames.getSelectionModel().selectedItemProperty().addListener(
                 (_, _, _) -> this.selectionChanged()
         );
 
-        // column 2
+        //Add button
         Button btnAdd = new Button("Add");
         pane.add(btnAdd, 2, 1);
-       // btnAdd.setDefaultButton(true);
         btnAdd.setOnAction(_ -> this.addAction());
-
+        //Delete button
         Button btnDelete = new Button("Delete");
         pane.add(btnDelete, 2, 2);
         btnDelete.setOnAction(_ -> this.deleteAction());
