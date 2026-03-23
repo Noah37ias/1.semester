@@ -85,7 +85,7 @@ public class GuiListView2 extends Application {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Create person");
             alert.setHeaderText("Information missing");
-            alert.setContentText("Type title and name");
+            alert.setContentText("Type name");
             alert.showAndWait();
             txfName.requestFocus();
         }
