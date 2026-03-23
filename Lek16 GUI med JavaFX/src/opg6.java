@@ -1,0 +1,2 @@
+public class opg6 {
+}
