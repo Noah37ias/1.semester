@@ -38,7 +38,7 @@ public class GuiListView4 extends Application {
     private PersonInputDialog  personWindow;
 
     private void initContent(GridPane pane) {
-        pane.setGridLinesVisible(true);
+        //pane.setGridLinesVisible(true);
         pane.setPadding(new Insets(20));
         pane.setHgap(10);
         pane.setVgap(10);
