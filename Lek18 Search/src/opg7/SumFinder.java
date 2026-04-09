@@ -1,11 +1,11 @@
 package opg7;
 
 public class SumFinder {
-    private int[] numbers = {1,2,3,4,5,6,7};
+    private int[] numbers = {1,2,3,4,5,-16,20};
 
     void main(){
 
-        IO.println(searchSum(numbers,7));
+        IO.println(searchSum(numbers,20));
     }
     public int searchSum(int[] numbers,int total){
         int i = 0;
