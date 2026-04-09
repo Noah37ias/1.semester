@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import jdk.jfr.Event;
@@ -127,18 +128,21 @@ public class YatzyGui extends Application {
         pane.add(lbl15, 0, 18);
 
 
-        for(int i = 0; i < 16; i++) {
-         if(i==6) {
-             txfResults.add(new TextField());
-             pane.add(txfResults.get(i), 1, i + 4);
-             GridPane.setHalignment(txfResults.get(i), HPos.CENTER);
-             txfResults.get(i).setMaxWidth(50);
-         }
-        else{
+        for (int i = 0; i < 16; i++) {
+            if (i == 6) {
                 txfResults.add(new TextField());
-                pane.add(txfResults.get(i), 1, i+3);
+                pane.add(txfResults.get(i), 1, i + 4);
                 GridPane.setHalignment(txfResults.get(i), HPos.CENTER);
                 txfResults.get(i).setMaxWidth(50);
+                txfResults.get(i).setEditable(false);
+                txfResults.get(i).setOnMouseClicked(event -> this.mouseClicked(event));
+            } else {
+                txfResults.add(new TextField());
+                pane.add(txfResults.get(i), 1, i + 3);
+                GridPane.setHalignment(txfResults.get(i), HPos.CENTER);
+                txfResults.get(i).setMaxWidth(50);
+                txfResults.get(i).setEditable(false);
+                txfResults.get(i).setOnMouseClicked(event -> this.mouseClicked(event));
             }
         }
 
@@ -160,24 +164,24 @@ public class YatzyGui extends Application {
         //Sum
         Label lblSumSame = new Label("Sum");
         pane.add(lblSumSame, 2, 8);
-        pane.add(txfSumSame,3,8);
+        pane.add(txfSumSame, 3, 8);
         txfSumSame.setMaxWidth(75);
         //Bonus
         Label lblBonus = new Label("Bonus");
         pane.add(lblBonus, 2, 9);
-        pane.add(txfBonus,3,9);
+        pane.add(txfBonus, 3, 9);
         txfBonus.setMaxWidth(75);
 
 
         Label lblSumOther = new Label("Sum");
         pane.add(lblSumOther, 2, 18);
-        pane.add(txfSumOther,3,18);
+        pane.add(txfSumOther, 3, 18);
         txfSumOther.setMaxWidth(75);
 
 
         Label lblTotal = new Label("Total");
         pane.add(lblTotal, 2, 19);
-        pane.add(txfTotal,3,19);
+        pane.add(txfTotal, 3, 19);
         txfTotal.setMaxWidth(75);
 
         btnThrow.setOnAction(event -> this.throwDice());
@@ -185,16 +189,22 @@ public class YatzyGui extends Application {
     }
 
     // Create an action method for btnThrow's action.
-    public void throwDice(){
+    public void throwDice() {
         dice.throwDice(readCbxHolds());
         fillTxfValues();
         fillTxfResults();
+        disableCbxHolds();
+        if (dice.getThrowCount() == 0) {
+            btnThrow.setText("Throw ");
+            clearUnusedTxfResults();
+        } else btnThrow.setText("Throw " + dice.getThrowCount());
+
     }
 
 
     // Create a method for mouse click on one of the text fields in txfResults.
     // TODO
-    public void fillResults(){
+    public void fillResults() {
 
     }
 
@@ -207,10 +217,9 @@ public class YatzyGui extends Application {
     private boolean[] readCbxHolds() {
         boolean[] status = new boolean[5];
         for (int i = 0; i < 5; i++) {
-            if(cbxHolds[i].isSelected()){
+            if (cbxHolds[i].isSelected()) {
                 status[i] = true;
-            }
-            else {
+            } else {
                 status[i] = false;
             }
         }
@@ -219,18 +228,26 @@ public class YatzyGui extends Application {
 
     // Fill the text fields that show the dice values.
     private void fillTxfValues() {
-    for(int i = 0; i < txfValues.length; i++) {
-    txfValues[i].setText(""+dice.getValues()[i]);
-    }
+        for (int i = 0; i < txfValues.length; i++) {
+            txfValues[i].setText("" + dice.getValues()[i]);
+        }
 
     }
 
     // Fill the text fields that show the results.
     private void fillTxfResults() {
-        for(int i = 0; i<6; i++){
-        txfResults.get(i).setText(""+dice.sameValuePoints(i+1));
+        for (int i = 0; i < 6; i++) {
+            txfResults.get(i).setText("" + dice.sameValuePoints(i + 1));
         }
-        txfResults.get(7).setText(""+dice.onePairPoints());
+        txfResults.get(7).setText("" + dice.onePairPoints());
+        txfResults.get(8).setText("" + dice.twoPairPoints());
+        txfResults.get(9).setText("" + dice.threeSamePoints());
+        txfResults.get(10).setText("" + dice.fourSamePoints());
+        txfResults.get(11).setText("" + dice.fullHousePoints());
+        txfResults.get(12).setText("" + dice.smallStraightPoints());
+        txfResults.get(13).setText("" + dice.fullHousePoints());
+        txfResults.get(14).setText("" + dice.chancePoints());
+        txfResults.get(15).setText("" + dice.yatzyPoints());
     }
 
     // Enable result text fields not used yet.
@@ -240,21 +257,39 @@ public class YatzyGui extends Application {
 
     // Clear result text fields not used yet.
     private void clearUnusedTxfResults() {
-        // TODO
+        for (int i = 0; i < txfResults.size(); i++) {
+            if(!txfResults.get(i).isMouseTransparent()){
+                txfResults.get(i).setText("");
+                dice.resetThrowCount();
+            }
+        }
     }
 
     // Make result text fields not used yet mouse transparent.
     private void disableUnusedTxfResults() {
-        // TODO
+
     }
 
     // Disable the Hold check boxes.
     private void disableCbxHolds() {
-        // TODO
+        if (dice.getThrowCount() == 4) {
+            dice.resetThrowCount();
+            for (int i = 0; i < cbxHolds.length; i++) {
+                cbxHolds[i].setSelected(false);
+            }
+        }
     }
 
     // Update the sum, bonus and total text fields.
     private void updateSums() {
+        
         // TODO
+    }
+
+    private void mouseClicked(MouseEvent event) {
+        TextField txf = (TextField) event.getSource();
+        txf.setStyle("-fx-control-inner-background: yellow");
+        txf.setMouseTransparent(true);
+        clearUnusedTxfResults();
     }
 }

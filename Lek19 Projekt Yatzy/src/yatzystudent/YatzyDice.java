@@ -34,6 +34,7 @@ public class YatzyDice {
      * Return the number of times the 5 dice have been thrown.
      */
     public int getThrowCount() {
+
         return throwCount;
     }
 
