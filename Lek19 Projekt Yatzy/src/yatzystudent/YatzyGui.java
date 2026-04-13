@@ -25,14 +25,11 @@ public class YatzyGui extends Application {
         GridPane pane = new GridPane();
         this.initContent(pane);
 
-        // --- NY KODE HERUNDER ---
-        // Pak din 'pane' ind i en ScrollPane
         javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane(pane);
-        scrollPane.setFitToWidth(true); // Sørger for at indholdet tilpasser sig bredden
-        scrollPane.setStyle("-fx-background-color: transparent;"); // Fjerner grimme kanter
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: transparent;" +
+                "-fx-background: pink;");
 
-        // Brug scrollPane i din Scene i stedet for pane.
-        // Du kan også sætte en standardstørrelse, f.eks. 400x600.
         Scene scene = new Scene(scrollPane, 400, 600);
         stage.setScene(scene);
         // stage.setResizable(false);
@@ -68,19 +65,16 @@ public class YatzyGui extends Application {
         // dicePane
 
         GridPane dicePane = new GridPane();
-        pane.add(dicePane, 0, 0);
+        //pane.add(dicePane, 0, 0);
         dicePane.setGridLinesVisible(false);
         dicePane.setPadding(new Insets(10));
         dicePane.setHgap(10);
         dicePane.setVgap(10);
         dicePane.setStyle("-fx-border-color: black");
 
-        // add txfValues, chbHolds
-        // TODO
-        // add lblThrowCount and btnThrow
-
-
         pane.add(btnThrow, 2, 2);
+        btnThrow.setStyle("-fx-background-color: orange;" +
+                "-fx-text-fill: green;");
 
         // ---------------------------------------------------------------------
         // scorePane
@@ -151,12 +145,14 @@ public class YatzyGui extends Application {
             txfValues[i] = new TextField();
             txfValues[i].setPrefWidth(75);
             txfValues[i].setPrefHeight(75);
-            txfValues[i].setStyle("-fx-font-size: 36px;");
+            txfValues[i].setStyle("-fx-font-size: 36px;" +
+                    "-fx-control-inner-background: gold");
             txfValues[i].setAlignment(Pos.CENTER);
             txfValues[i].setEditable(false);
             pane.add(txfValues[i], i, 0);
 
             cbxHolds[i] = new CheckBox("Hold");
+            cbxHolds[i].setDisable(true);
             GridPane.setHalignment(cbxHolds[i], HPos.CENTER);
             pane.add(cbxHolds[i], i, 1);
 
@@ -166,23 +162,26 @@ public class YatzyGui extends Application {
         pane.add(lblSumSame, 2, 8);
         pane.add(txfSumSame, 3, 8);
         txfSumSame.setMaxWidth(75);
+        txfSumSame.setEditable(false);
         //Bonus
         Label lblBonus = new Label("Bonus");
         pane.add(lblBonus, 2, 9);
         pane.add(txfBonus, 3, 9);
         txfBonus.setMaxWidth(75);
-
+        txfBonus.setEditable(false);
 
         Label lblSumOther = new Label("Sum");
         pane.add(lblSumOther, 2, 18);
         pane.add(txfSumOther, 3, 18);
         txfSumOther.setMaxWidth(75);
+        txfSumOther.setEditable(false);
 
 
         Label lblTotal = new Label("Total");
         pane.add(lblTotal, 2, 19);
         pane.add(txfTotal, 3, 19);
         txfTotal.setMaxWidth(75);
+        txfTotal.setEditable(false);
 
         btnThrow.setOnAction(event -> this.throwDice());
 
@@ -193,32 +192,41 @@ public class YatzyGui extends Application {
         dice.throwDice(readCbxHolds());
         fillTxfValues();
         fillTxfResults();
-        disableCbxHolds();
         if (dice.getThrowCount() == 0) {
             btnThrow.setText("Throw ");
             clearUnusedTxfResults();
         } else btnThrow.setText("Throw " + dice.getThrowCount());
-
+        buttonLock();
+        if (dice.getThrowCount() <= 1) {
+            for (CheckBox cbxHold : cbxHolds) {
+                cbxHold.setDisable(false);
+            }
+        }
     }
 
-
-    // Create a method for mouse click on one of the text fields in txfResults.
-    // TODO
-    public void fillResults() {
-
-    }
-
-    // Reset all Hold checkboxes to false and enabled.
+    // Reset af knapper og terning værdier når runden er slut
     private void resetCbxHolds() {
-        // TODO
+        if (dice.getThrowCount() == 0) {
+            for (int i = 0; i < 5; i++) {
+                if (cbxHolds[i].isSelected()) {//Hvis der er trykket hold på en knap så
+                    cbxHolds[i].setSelected(false);
+                    cbxHolds[i].setDisable(false);
+                }
+                txfValues[i].setText("");//Sætter teksten på terningerne til 0
+            }
+        }
     }
 
-    // Return the status of Hold checkboxes.
+    // Bruges til at tjekke om en terning er blevet holdt
     private boolean[] readCbxHolds() {
         boolean[] status = new boolean[5];
         for (int i = 0; i < 5; i++) {
             if (cbxHolds[i].isSelected()) {
                 status[i] = true;
+                cbxHolds[i].setDisable(true);
+                cbxHolds[i].setStyle("-fx-mark-color: red;");
+                txfValues[i].setStyle("-fx-control-inner-background: red;" +
+                        "-fx-font-size: 36px;");
             } else {
                 status[i] = false;
             }
@@ -226,70 +234,117 @@ public class YatzyGui extends Application {
         return status;
     }
 
-    // Fill the text fields that show the dice values.
+    // Fylder alle værdier på terningerne
     private void fillTxfValues() {
         for (int i = 0; i < txfValues.length; i++) {
             txfValues[i].setText("" + dice.getValues()[i]);
         }
-
     }
 
     // Fill the text fields that show the results.
     private void fillTxfResults() {
         for (int i = 0; i < 6; i++) {
-            txfResults.get(i).setText("" + dice.sameValuePoints(i + 1));
+            if (txfResults.get(i).isMouseTransparent()) {
+
+            } else txfResults.get(i).setText("" + dice.sameValuePoints(i + 1));
         }
-        txfResults.get(7).setText("" + dice.onePairPoints());
-        txfResults.get(8).setText("" + dice.twoPairPoints());
-        txfResults.get(9).setText("" + dice.threeSamePoints());
-        txfResults.get(10).setText("" + dice.fourSamePoints());
-        txfResults.get(11).setText("" + dice.fullHousePoints());
-        txfResults.get(12).setText("" + dice.smallStraightPoints());
-        txfResults.get(13).setText("" + dice.fullHousePoints());
-        txfResults.get(14).setText("" + dice.chancePoints());
-        txfResults.get(15).setText("" + dice.yatzyPoints());
+        if (!txfResults.get(7).isMouseTransparent()) {
+            txfResults.get(7).setText("" + dice.onePairPoints());
+        }
+        if (!txfResults.get(8).isMouseTransparent()) {
+            txfResults.get(8).setText("" + dice.twoPairPoints());
+        }
+        if (!txfResults.get(9).isMouseTransparent()) {
+            txfResults.get(9).setText("" + dice.threeSamePoints());
+        }
+        if (!txfResults.get(10).isMouseTransparent()) {
+            txfResults.get(10).setText("" + dice.fourSamePoints());
+        }
+        if (!txfResults.get(11).isMouseTransparent()) {
+            txfResults.get(11).setText("" + dice.fullHousePoints());
+        }
+        if (!txfResults.get(12).isMouseTransparent()) {
+            txfResults.get(12).setText("" + dice.smallStraightPoints());
+        }
+        if (!txfResults.get(13).isMouseTransparent()) {
+            txfResults.get(13).setText("" + dice.largeStraightPoints());
+        }
+        if (!txfResults.get(14).isMouseTransparent()) {
+            txfResults.get(14).setText("" + dice.chancePoints());
+
+        }
+        if (!txfResults.get(15).isMouseTransparent()) {
+            txfResults.get(15).setText("" + dice.yatzyPoints());
+
+        }
     }
 
-    // Enable result text fields not used yet.
-    private void enableTxfResults() {
-        // TODO
-    }
-
-    // Clear result text fields not used yet.
+    //Clear alle result felter som ikke er brugt
     private void clearUnusedTxfResults() {
         for (int i = 0; i < txfResults.size(); i++) {
-            if(!txfResults.get(i).isMouseTransparent()){
+            if (!txfResults.get(i).isMouseTransparent()) {
                 txfResults.get(i).setText("");
                 dice.resetThrowCount();
             }
         }
     }
 
-    // Make result text fields not used yet mouse transparent.
-    private void disableUnusedTxfResults() {
-
-    }
-
-    // Disable the Hold check boxes.
-    private void disableCbxHolds() {
-        if (dice.getThrowCount() == 4) {
-            dice.resetThrowCount();
-            for (int i = 0; i < cbxHolds.length; i++) {
-                cbxHolds[i].setSelected(false);
-            }
+    // Låser throw knappen når man har ramt maks antal kast
+    private void buttonLock() {
+        if (dice.getThrowCount() == 3) {
+            btnThrow.setDisable(true);
+            btnThrow.setText("Choose");
         }
     }
 
+    // Tjekker om en checkbox er på hold, og resetter den
+    private void disableCbxHolds() {
+        for (int i = 0; i < cbxHolds.length; i++) {
+            cbxHolds[i].setSelected(false);
+        }
+    }
+
+
     // Update the sum, bonus and total text fields.
     private void updateSums() {
-        
-        // TODO
+        int sumOther = 0;
+        int sumSame = 0;
+        int bonus = 0;
+        for (int i = 0; i < txfResults.size(); i++) {
+
+            if (txfResults.get(i).isMouseTransparent() && i >= 6) {
+                sumOther = Integer.parseInt(txfResults.get(i).getText()) + sumOther;
+                txfSumOther.setText(String.valueOf(sumOther));
+            }
+
+            if (txfResults.get(i).isMouseTransparent() && i <= 5) {
+                sumSame = Integer.parseInt(txfResults.get(i).getText()) + sumSame;
+                txfSumSame.setText(String.valueOf(sumSame));
+            }
+            if (sumSame >= 63) {
+                txfBonus.setText("50");
+                bonus = 50;
+            }
+            txfTotal.setText(String.valueOf(sumOther + sumSame + bonus));
+        }
     }
 
     private void mouseClicked(MouseEvent event) {
         TextField txf = (TextField) event.getSource();
-        txf.setStyle("-fx-control-inner-background: yellow");
         txf.setMouseTransparent(true);
+        txf.setStyle("-fx-control-inner-background: yellow;");
+        updateSums();
         clearUnusedTxfResults();
+        btnThrow.setDisable(false);
+        btnThrow.setText("Throw");
+        resetCbxHolds();
+
+        for (int i = 0; i < txfValues.length; i++) {
+            txfValues[i].setStyle("-fx-control-inner-background: gold;" +
+                    "-fx-font-size: 36px;");
+        }
+        for (CheckBox cbxHold : cbxHolds) {
+            cbxHold.setDisable(true);
+        }
     }
 }

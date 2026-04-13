@@ -203,7 +203,7 @@ public class YatzyDiceTest {
         int result = dice.yatzyPoints();
         assertEquals(0, result);
 
-        int[] values1 = {3, 3, 3, 3, 3};
+        int[] values1 = {6,6,6,6,6};
         dice.setValues(values1);
         int result1 = dice.yatzyPoints();
         assertEquals(50, result1);
