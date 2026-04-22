@@ -6,13 +6,12 @@ public class Person {
     private String name;
     private String cpr;
     private String phone;
-    private ArrayList<Dog> dogs;
+    private ArrayList<Dog> dogs = new ArrayList<>();
 
     public Person(String name, String cpr, String phone) {
         this.name = name;
         this.cpr = cpr;
         this.phone = phone;
-        this.dogs = new ArrayList<>();
     }
 
     public String getCpr() {

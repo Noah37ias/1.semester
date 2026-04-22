@@ -84,8 +84,7 @@ public class GuiListView2 extends Application {
 
         //Bruges til vores selection
         lvwNames.getSelectionModel().selectedItemProperty().addListener(
-                (_, _, _) -> this.selectionChanged()
-        );
+                (_, _, _) -> this.selectionChanged());
 
         //Add button
         Button btnAdd = new Button("Add");
