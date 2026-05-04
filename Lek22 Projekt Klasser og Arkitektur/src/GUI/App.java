@@ -31,22 +31,18 @@ public class App {
             for (int col = 1; col <= seatsPrRow; col++) {
                 int price = 400;
                 PladsType type = PladsType.STANDARD;
-
                 if (row <= 5) {
                     price += 50;
                 }
-
                 if (3 <= col && 18 >= col && row <= 10) {
                     price += 50;
                 }
-
                 if (col >= 8 && col <= 12) {
                     type = switch (row) {
                         case 10 -> PladsType.KØRESTOL;
                         case 11 -> PladsType.EKSTRABEN;
                         default -> PladsType.STANDARD;
                     };
-
                 }
                 Controller.createPlads(row, col, price, type);
             }

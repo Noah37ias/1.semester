@@ -25,6 +25,8 @@ public class SeatContentPane extends ContentPane {
         this.playPane = playPane;
         this.kunderPane = kunderPane;
         btnCreate.setText("Opret bestilling");
+        btnCreate.setText("Se oversigt");
+
         this.getChildren().add(1, lswpladser);
         lswpladser.getItems().setAll(Controller.getPladser());
         lswpladser.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

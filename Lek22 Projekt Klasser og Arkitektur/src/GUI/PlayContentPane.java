@@ -25,7 +25,6 @@ public class PlayContentPane extends ContentPane{
         txfStart.setPromptText("YYYY-MM-DD");
         txfSlut = createTextField("Slut Dato");
         txfSlut.setPromptText("YYYY-MM-DD");
-
     }
 
     @Override
