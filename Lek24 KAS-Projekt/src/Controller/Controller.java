@@ -1,13 +1,11 @@
 package Controller;
 
-import Model.Deltager;
-import Model.Hotel;
-import Model.Konference;
-import Model.Tilmelding;
+import Model.*;
 import Storage.Storage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public abstract class Controller {
     public static Deltager createDeltager(String navn, String adresse, Boolean foredragsholder, LocalDateTime afrejseDato, String telefonNr, String firmaTlfNr, String by){
@@ -15,8 +13,8 @@ public abstract class Controller {
         Storage.storeDeltager(deltager);
         return deltager;
     }
-    public static Hotel createHotel(Double pris,String navn){
-        Hotel hotel = new Hotel(pris,navn);
+    public static Hotel createHotel(Double pris, String navn, ArrayList<Tillæg> tillæg){
+        Hotel hotel = new Hotel(pris,navn,tillæg);
         Storage.storeHotel(hotel);
         return hotel;
     }
@@ -25,8 +23,8 @@ public abstract class Controller {
         Storage.storeKonference(konference);
         return konference;
     }
-    public static Tilmelding createTilmelding(LocalDateTime ankomstDato){
-        Tilmelding tilmelding = new Tilmelding(ankomstDato);
+    public static Tilmelding createTilmelding(LocalDateTime ankomstDato, Konference konference, Deltager deltager){
+        Tilmelding tilmelding = new Tilmelding(ankomstDato, konference, deltager);
         Storage.storeTilmelding(tilmelding);
         return tilmelding;
     }
