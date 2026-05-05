@@ -8,4 +8,14 @@ public class Tillæg {
         this.navn = navn;
         this.pris = pris;
     }
+    public double getPris(){
+        return pris;
+    }
+    @Override
+    public String toString() {
+        return "Tillæg{" +
+                "navn='" + navn + '\'' +
+                ", pris=" + pris +
+                '}';
+    }
 }
