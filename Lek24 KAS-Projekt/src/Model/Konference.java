@@ -18,6 +18,7 @@ public class Konference {
         this.startDato = startDato;
         this.adresse = adresse;
         this.pris = pris;
+        this.hoteller = new ArrayList<>();
     }
     public double getPris(){
         return pris;

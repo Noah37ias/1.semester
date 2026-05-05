@@ -50,8 +50,7 @@ public class App {
 
         Tilmelding tilmelding3 = Controller.createTilmelding(k1,d3,LocalDate.now());
         tilmelding3.setLedsager(l1);
-
-
+        k1.addHotel(h1);
 
     }
 }
