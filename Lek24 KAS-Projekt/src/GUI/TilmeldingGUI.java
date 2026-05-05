@@ -12,12 +12,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 import java.util.Optional;
-
-import Controller.Controller;
-
 
 public class TilmeldingGUI extends Application {
     private ComboBox<String> cbKonference;
@@ -30,7 +25,7 @@ public class TilmeldingGUI extends Application {
     public void start(Stage stage) {
         stage.setTitle("KAS - KonferenceAdministrationsSystemet");
         GridPane pane = new GridPane();
-        pane.setStyle("-fx-background-color: #e0e0e0;");
+        pane.setStyle("-fx-background-color: #93c47e;");
         this.initContent(pane);
 
         //SCROLLBAR
@@ -56,12 +51,16 @@ public class TilmeldingGUI extends Application {
         Button btnAdmin = new Button("Admin");
         pane.add(btnAdmin, 0, 0);
         GridPane.setHalignment(btnAdmin, HPos.RIGHT);
+        btnAdmin.setStyle("-fx-background-color: black; -fx-text-fill: red; -fx-font-size: 15px; -fx-font-family: Consolas;");
+
 
         btnAdmin.setOnAction(event -> {//Hvis der trykkes på admin knappen, åbner pop up
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Admin Login");
-            dialog.setHeaderText("Adgang for administrationen");
-            dialog.setContentText("Indtast venligst adgangskode:");
+            dialog.setHeaderText("KUN ADGANG FOR SEJE ADMINS :)");
+            dialog.setContentText("Indtast adgangskode:");
+            DialogPane dialogPane = dialog.getDialogPane();
+            dialogPane.setStyle("-fx-background-color: orange;");
             Optional<String> result = dialog.showAndWait();
 
             result.ifPresent(indtastetKode -> {//Tjek om koden passer
@@ -81,24 +80,34 @@ public class TilmeldingGUI extends Application {
 
         //Bruger metode til at oprette konference boks boks 0 kolonne,1 række
         VBox konference = vælgKonference();
+        konference.setStyle("-fx-background-color: #ea999a;");
+        konference.setPadding(new Insets(10));
         pane.add(konference, 0, 1);
         GridPane.setHgrow(konference, javafx.scene.layout.Priority.ALWAYS);
         //Bruger metode til at oprette deltager boks boks 0 kolonne,2 række
         VBox deltager = deltagerInfo();
+        deltager.setStyle("-fx-background-color: #ea999a;");
         pane.add(deltager, 0, 2);
         GridPane.setHgrow(deltager, javafx.scene.layout.Priority.ALWAYS);
+        deltager.setPadding(new Insets(10));
         //Bruger metode til at oprette hotel boks 0 kolonne,3 række
         VBox hotel = opretHotel();
+        hotel.setStyle("-fx-background-color: #ea999a;");
         pane.add(hotel, 0, 3);
         GridPane.setHgrow(hotel, javafx.scene.layout.Priority.ALWAYS);
+        hotel.setPadding(new Insets(10));
         //Bruger metode til at oprette ledsager boks 0 kolonne,4 række
         VBox ledsager = vælgLedsager();
+        ledsager.setStyle("-fx-background-color: #ea999a;");
         pane.add(ledsager, 0, 4);
         GridPane.setHgrow(ledsager, javafx.scene.layout.Priority.ALWAYS);
+        ledsager.setPadding(new Insets(10));
         //Bruger metode til at oprette Ledsager boks 0 kolonne,5 række
         VBox pris = prisoversigt();
+        pris.setStyle("-fx-background-color: #ea999a;");
         pane.add(pris, 0, 5);
         GridPane.setHgrow(pris, javafx.scene.layout.Priority.ALWAYS);
+        pris.setPadding(new Insets(10));
 
         //Tjekker at vi ikke vi ikke vælger ting i tom liste
         if (!cbKonference.getItems().isEmpty()) {
@@ -114,9 +123,10 @@ public class TilmeldingGUI extends Application {
         VBox boks = new VBox(10);
         //Overskrift
         Label lblTitel = new Label("Konference");
-        lblTitel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+        lblTitel.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #6e9eeb; -fx-font-family: Consolas;");
         // ComboBox til konference valg
         cbKonference = new ComboBox<>();
+        cbKonference.setStyle("-fx-background-color: #ffd966;");
         for (Konference konference : Controller.getKonferencer()) {
             //Laver en tekststreng med navn og pris
             String tekstKonference = konference.getNavn() + " - " + konference.getPris() + " kr/dagen";
@@ -142,11 +152,12 @@ public class TilmeldingGUI extends Application {
         VBox boks = new VBox(5);
         //Overskrift
         Label lblTitel = new Label("Deltager");
-        lblTitel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+        lblTitel.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #6e9eeb; -fx-font-family: Consolas;");
         // Opretter tekstfelterne, hvor brugeren kan skrive og labels dertil
         Label lblNavn = new Label("Navn");
         TextField txtNavn = new TextField();
         txtNavn.setPromptText("Fulde navn");//Tilføjer hjælpe tekst i feltet
+        txtNavn.setStyle("-fx-background-color: #ffd966;");
         Label lblFirma = new Label("Firma tlf(valgfri)");
         TextField txtFirma = new TextField();
         txtFirma.setPromptText("Hvis betalt af firma");//Tilføjer hjælpe tekst i feltet
@@ -171,11 +182,12 @@ public class TilmeldingGUI extends Application {
     }
 
     private VBox opretHotel() {
+        //Opretter en Vertical boks
         VBox boks = new VBox(10);
 
         // Overskrift
         Label lblTitel = new Label("Hotel");
-        lblTitel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
+        lblTitel.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #6e9eeb; -fx-font-family: Consolas;");
 
         // ComboBox til hotelvalg
         cbHotel = new ComboBox<>();
@@ -196,13 +208,18 @@ public class TilmeldingGUI extends Application {
         ekstraServicesBoks.setVisible(false);//Gør så den ikke kan ses når de ikke findes
         ekstraServicesBoks.setManaged(false);//Gør så den ikke fylder når den ikke vises
 
+        //Til at tjekke hvad der bliver valgt i comboboksen
         cbHotel.getSelectionModel().selectedItemProperty().addListener((_, _, tjek) -> {
+            //Hvis teksten der er valgt ikke er "Intet hotel" og teksten tjek eksiterer
             if (tjek != null && !tjek.equals("Intet hotel")) {
+                //Så skal ekstra tillæg vises
                 ekstraServicesBoks.setVisible(true);
                 ekstraServicesBoks.setManaged(true);
             } else {
+                //eller hvis man vælger intet hotel igen skjul det
                 ekstraServicesBoks.setVisible(false);
                 ekstraServicesBoks.setManaged(false);
+                //samt opdater tillæg til ikke valgt
                 chkMorgenmad.setSelected(false);
             }
         });
@@ -214,80 +231,103 @@ public class TilmeldingGUI extends Application {
     }
 
     private VBox vælgLedsager() {
+        //Opretter en Vertical boks
         VBox boks = new VBox(10);
         //Overskrift
         Label lblTitel = new Label("Ledsager");
-        lblTitel.setStyle("-fx-font-size: 16; -fx-font-weight: bold;");
-        // Radiobutton til tilvalg af ledsager
-        RadioButton rbLedsager = new RadioButton("Jeg medbringer en ledsager(Giver automatisk dobbeltværelse)");
+        lblTitel.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #6e9eeb; -fx-font-family: Consolas;");
+        // Checkbox til tilvalg af ledsager
+        CheckBox cbLedsager = new CheckBox("Jeg medbringer en ledsager\n(Giver automatisk dobbeltværelse)");
+
 
         // Tilføj alt til boksen
-        boks.getChildren().addAll(lblTitel, rbLedsager);
-
+        boks.getChildren().addAll(lblTitel, cbLedsager);
+        //Farver og mellemrum i boksen
         boks.setStyle("-fx-background-color: #f2f2ef;" + "-fx-padding: 15;");
         return boks;
     }
 
     private VBox prisoversigt() {
+        //Opretter en Vertical boks
         VBox boks = new VBox(10);
-        //Overskrift
+        //Overskrift farve og størrelse
         Label lblTitel = new Label("Prisoversigt");
-        lblTitel.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-font-color: green;");
+        lblTitel.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #6e9eeb; -fx-font-family: Consolas;");
 
-
+        //Bruger vores label og giver dem tekster
         lblKonference = new Label("Konference: 0 kr.");
         lblHotel = new Label("Hotel: 0 kr.");
         lblTotal = new Label("Total: 0 kr.");
+        lblTotal.setStyle("-fx-font-weight: bold;");
+        lblHotel.setStyle("-fx-font-weight: bold;");
+        lblKonference.setStyle("-fx-font-weight: bold;");
+
+        Button btnGodkend = new Button("Bekræft tilmelding");
+        btnGodkend.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: green;");
 
 
-        // Tilføj overskrift og dropdown til boksen
-        boks.getChildren().addAll(lblTitel, lblKonference, lblHotel, lblTotal);
 
+        // Tilføj alt til boksen
+        boks.getChildren().addAll(lblTitel, lblKonference, lblHotel, lblTotal, btnGodkend);
+        //Farver og mellemrum på boksen
         boks.setStyle("-fx-background-color: #f2f2ef;" + "-fx-padding: 15;");
         return boks;
     }
 
     private void opdaterPriser() {
+        //Tjek om bokse er lavet ellers stop
         if (cbKonference == null || cbHotel == null || lblTotal == null) return;
-        double totalPris = 0;
 
+        double totalPris = 0;//Vores total pris variabel
+        //Tjekker hvilken konference der er valgt
         int valgtKonf = cbKonference.getSelectionModel().getSelectedIndex();
-
+        //Tager objektet fra listen i controlleren
         Konference valgtKonference = Controller.getKonferencer().get(valgtKonf);
+        //Får prisen på konferencen
         double konfPris = valgtKonference.getPris();
-
+        //Opdaterer teksten så der kommer pris på og tilføjer til totalpris
         lblKonference.setText("Konference: " + konfPris + " kr.");
         totalPris += konfPris;
 
+        //Finder det valgte hotel
         int valgtHotelIndex = cbHotel.getSelectionModel().getSelectedIndex();
+        //Hvis det er plads 0 der er valgt skal vi ikke regne noget da prisen er 0 kroner
         if (valgtHotelIndex > 0) {
-
+            //Får hotellet fra konferences liste af hoteller og trækker 1 fra da Intet hotel fylder plads 0 ud
             Hotel valgtHotel = valgtKonference.getHoteller().get(valgtHotelIndex - 1);
+            //Får prisen af objektet
             double hotelPris = valgtHotel.getPris();
-
+            //Opdaterer teksten og tilføjer til totalpris
             lblHotel.setText("Hotel: " + hotelPris + " kr.");
             totalPris += hotelPris;
         } else {
+            //hvis intet hotel er valgt
             lblHotel.setText("Hotel: 0 kr.");
         }
+        //Opdaterer total pris teksten med den nye udregnede pris
         lblTotal.setText("Total: " + totalPris + " kr.");
     }
 
     private void opdaterHoteller() {
-
+        //Fjerner alt fra listen
         cbHotel.getItems().clear();
+        //Tilføjer Intet hotel som standard på plads 0
         cbHotel.getItems().add("Intet hotel");
-
+        // Tjekker hvilken konference der er valgt lige nu
         int valgtKonfIndex = cbKonference.getSelectionModel().getSelectedIndex();
-
+        //Hvis man har valgt en konference
         if (valgtKonfIndex >= 0) {
+            //tager konfernce objeketet
             Konference valgtKonference = Controller.getKonferencer().get(valgtKonfIndex);
-
+            //Får listen af hoteller fra den konferenc
             for (Hotel hotel : valgtKonference.getHoteller()) {
+                //Opretter en tekst med hotel navn og pris
                 String tekstHotel = hotel.getNavn() + " - " + hotel.getPris() + " kr/nat";
+                //Tilføjer teksten til comboboxen
                 cbHotel.getItems().add(tekstHotel);
             }
         }
+        //Gør så man starter på "Intet hotel" igen
         cbHotel.getSelectionModel().selectFirst();
     }
 }
