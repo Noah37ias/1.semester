@@ -14,6 +14,8 @@ public class App {
     }
     public static void initStorage(){
         Konference k1 = Controller.createKonference("Hav og himmel", LocalDate.of(2026,5,28),LocalDate.of(2026,5,30),"Odense universitet",1500);
+        Konference k2 = Controller.createKonference("Himmel og Hav", LocalDate.of(2027,5,28),LocalDate.of(2026,5,30),"Odense universitet",1667);
+
 
         Deltager d1 = Controller.createDeltager("Finn Madsen","Psykovej 67", false,LocalDate.of(2026,5,30),"52243141","57575757","Århus");
         Deltager d2 = Controller.createDeltager("Niels Petersen","Psykovej 69", false,LocalDate.of(2026,5,30),"65783421","12568945","Århus");
@@ -38,6 +40,7 @@ public class App {
 
         Hotel h1 = Controller.createHotel(1050,"Den Hvide svane",1250);
         Tillæg t1 = Controller.createTillæg("WIFI",50);
+        h1.addTillæg(t1);
 
         Tilmelding tilmelding5 = Controller.createTilmelding(k1,d5,LocalDate.now());
         tilmelding5.setHotel(h1);
@@ -47,6 +50,8 @@ public class App {
 
         Tilmelding tilmelding3 = Controller.createTilmelding(k1,d3,LocalDate.now());
         tilmelding3.setLedsager(l1);
+
+
 
     }
 }

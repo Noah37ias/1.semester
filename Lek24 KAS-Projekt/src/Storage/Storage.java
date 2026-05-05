@@ -34,4 +34,11 @@ public abstract class Storage {
     public static void storeUdflugt(Udflugt udflugt) {
         udflugter.add(udflugt);
     }
+
+    public static ArrayList<Hotel> getHoteller() {
+        return hoteller;
+    }
+    public static ArrayList<Konference> getKonferencer() {
+        return konferencer;
+    }
 }

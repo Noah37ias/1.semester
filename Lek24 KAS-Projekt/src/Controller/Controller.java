@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public abstract class Controller {
+
     public static Deltager createDeltager(String navn, String adresse, Boolean foredragsholder, LocalDate afrejseDato, String telefonNr, String firmaTlfNr, String by){
         Deltager deltager = new Deltager(navn, adresse, foredragsholder, afrejseDato, telefonNr, firmaTlfNr, by);
         Storage.storeDeltager(deltager);
@@ -46,6 +47,12 @@ public abstract class Controller {
     public static boolean tjekAdminKode(String indtastetKode) {
         String kode = "6767";
         return indtastetKode.equals(kode);
+    }
+    public static ArrayList<Hotel> getHoteller() {
+        return Storage.getHoteller();
+    }
+    public static ArrayList<Konference> getKonferencer() {
+        return Storage.getKonferencer();
     }
 }
 

@@ -22,6 +22,9 @@ public class Hotel {
     public double getDobbeltPris(){
         return dobbeltPris;
     }
+    public String getNavn(){
+        return navn;
+    }
 
     @Override
     public String toString() {

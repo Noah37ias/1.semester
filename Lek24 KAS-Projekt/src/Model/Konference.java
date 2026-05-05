@@ -28,4 +28,16 @@ public class Konference {
     public LocalDate getSlutDato(){
         return slutDato;
     }
+    public String getAdresse(){
+        return adresse;
+    }
+    public String getNavn(){
+        return navn;
+    }
+    public ArrayList<Hotel> getHoteller(){
+        return hoteller;
+    }
+    public void addHotel(Hotel hotel){
+        hoteller.add(hotel);
+    }
 }
