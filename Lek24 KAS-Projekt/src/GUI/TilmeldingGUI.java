@@ -3,6 +3,7 @@ package GUI;
 import Controller.Controller;
 import Model.Hotel;
 import Model.Konference;
+import Model.Tillæg;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -12,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.util.Optional;
 
 public class TilmeldingGUI extends Application {
@@ -20,6 +22,9 @@ public class TilmeldingGUI extends Application {
     private Label lblKonference;
     private Label lblHotel;
     private Label lblTotal;
+    private CheckBox cbTillæg;
+    private VBox vboxTillæg;
+    private Label lblTillæg;
 
     @Override
     public void start(Stage stage) {
@@ -52,7 +57,6 @@ public class TilmeldingGUI extends Application {
         pane.add(btnAdmin, 0, 0);
         GridPane.setHalignment(btnAdmin, HPos.RIGHT);
         btnAdmin.setStyle("-fx-background-color: black; -fx-text-fill: red; -fx-font-size: 15px; -fx-font-family: Consolas;");
-
 
         btnAdmin.setOnAction(event -> {//Hvis der trykkes på admin knappen, åbner pop up
             TextInputDialog dialog = new TextInputDialog();
@@ -194,43 +198,63 @@ public class TilmeldingGUI extends Application {
         //Laver et standard valg, så man ikke er tvunget til at vælge et hotel
         cbHotel.getItems().add("Intet hotel");
         //Hvis man vælget et andet hotel opdateres prisen i totalPris
-        cbHotel.setOnAction(_ -> opdaterPriser());
+        cbHotel.setOnAction(event -> {
+            opdaterTillæg();
+            opdaterPriser();
+        });
         cbHotel.setMaxWidth(6767);//Tvinger størrelsen på menuen til sit max
-
-        //Ny boks med ekstra tillæg
-        VBox ekstraServicesBoks = new VBox(5);
-        Label lblEkstra = new Label("Ekstra services");
-        lblEkstra.setStyle("-fx-font-weight: bold;");
-        CheckBox chkMorgenmad = new CheckBox("Morgenmad + 150 kr./nat");
-        ekstraServicesBoks.getChildren().addAll(lblEkstra, chkMorgenmad);
-
-
-        ekstraServicesBoks.setVisible(false);//Gør så den ikke kan ses når de ikke findes
-        ekstraServicesBoks.setManaged(false);//Gør så den ikke fylder når den ikke vises
 
         //Til at tjekke hvad der bliver valgt i comboboksen
         cbHotel.getSelectionModel().selectedItemProperty().addListener((_, _, tjek) -> {
             //Hvis teksten der er valgt ikke er "Intet hotel" og teksten tjek eksiterer
             if (tjek != null && !tjek.equals("Intet hotel")) {
                 //Så skal ekstra tillæg vises
-                ekstraServicesBoks.setVisible(true);
-                ekstraServicesBoks.setManaged(true);
+                vboxTillæg.setVisible(true);
+                vboxTillæg.setManaged(true);
             } else {
                 //eller hvis man vælger intet hotel igen skjul det
-                ekstraServicesBoks.setVisible(false);
-                ekstraServicesBoks.setManaged(false);
-                //samt opdater tillæg til ikke valgt
-                chkMorgenmad.setSelected(false);
+                vboxTillæg.setVisible(false);
+                vboxTillæg.setManaged(false);
             }
         });
 
+        vboxTillæg = new VBox(5);
+
         // Tilføjer tingene til boksen samt farver
-        boks.getChildren().addAll(lblTitel, cbHotel, ekstraServicesBoks);
+        boks.getChildren().addAll(lblTitel, cbHotel,vboxTillæg);
         boks.setStyle("-fx-background-color: #f2f2ef;" + "-fx-padding: 15;");
         return boks;
     }
+    public void opdaterTillæg() {
+        // clear hvis man skifter hotel
+        vboxTillæg.getChildren().clear();
 
-    private VBox vælgLedsager() {
+        int valgtKonf = cbKonference.getSelectionModel().getSelectedIndex();
+        int valgtHotelIndex = cbHotel.getSelectionModel().getSelectedIndex();
+
+        // Hvis der er valgt en konference og et hotel
+        if (valgtKonf >= 0 && valgtHotelIndex > 0) {
+            //Overskrift
+            Label lblEkstra = new Label("Ekstra services");
+            lblEkstra.setStyle("-fx-font-weight: bold;");
+            vboxTillæg.getChildren().add(lblEkstra);
+
+            Konference valgtKonference = Controller.getKonferencer().get(valgtKonf);
+            Hotel valgtHotel = valgtKonference.getHoteller().get(valgtHotelIndex - 1);
+
+            // looper gennem alle tillæg på hotellet
+            for (Tillæg tillæg : valgtHotel.getTillæg()) {
+                String tekstTillæg = tillæg.getNavn() + "  -  " + tillæg.getPris() + " kr/nat";
+
+                CheckBox chkNyTillæg = new CheckBox(tekstTillæg);
+                chkNyTillæg.setUserData(tillæg.getPris());
+                chkNyTillæg.setOnAction(event -> opdaterPriser());
+                vboxTillæg.getChildren().add(chkNyTillæg);
+            }
+        }
+    }
+
+    public VBox vælgLedsager() {
         //Opretter en Vertical boks
         VBox boks = new VBox(10);
         //Overskrift
@@ -247,17 +271,23 @@ public class TilmeldingGUI extends Application {
         return boks;
     }
 
-    private VBox prisoversigt() {
+    public void opdaterUdflugter(){
+
+    }
+
+    public VBox prisoversigt() {
         //Opretter en Vertical boks
         VBox boks = new VBox(10);
         //Overskrift farve og størrelse
-        Label lblTitel = new Label("Prisoversigt");
+        Label lblTitel = new Label("Prisoversigt pr/dag");
         lblTitel.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #6e9eeb; -fx-font-family: Consolas;");
 
         //Bruger vores label og giver dem tekster
         lblKonference = new Label("Konference: 0 kr.");
         lblHotel = new Label("Hotel: 0 kr.");
         lblTotal = new Label("Total: 0 kr.");
+        lblTillæg = new Label("Tillæg: 0 kr.");
+        lblTillæg.setStyle("-fx-font-weight: bold;");
         lblTotal.setStyle("-fx-font-weight: bold;");
         lblHotel.setStyle("-fx-font-weight: bold;");
         lblKonference.setStyle("-fx-font-weight: bold;");
@@ -266,15 +296,14 @@ public class TilmeldingGUI extends Application {
         btnGodkend.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: green;");
 
 
-
         // Tilføj alt til boksen
-        boks.getChildren().addAll(lblTitel, lblKonference, lblHotel, lblTotal, btnGodkend);
+        boks.getChildren().addAll(lblTitel, lblKonference, lblHotel, lblTillæg,lblTotal, btnGodkend);
         //Farver og mellemrum på boksen
         boks.setStyle("-fx-background-color: #f2f2ef;" + "-fx-padding: 15;");
         return boks;
     }
 
-    private void opdaterPriser() {
+    public void opdaterPriser() {
         //Tjek om bokse er lavet ellers stop
         if (cbKonference == null || cbHotel == null || lblTotal == null) return;
 
@@ -299,16 +328,40 @@ public class TilmeldingGUI extends Application {
             double hotelPris = valgtHotel.getPris();
             //Opdaterer teksten og tilføjer til totalpris
             lblHotel.setText("Hotel: " + hotelPris + " kr.");
+
             totalPris += hotelPris;
+
+            double samletTillægPris = 0;
+
+            // looper gennem alt i vboxTillæg
+            for (javafx.scene.Node node : vboxTillæg.getChildren()) {
+                // Tjekker om det er en checkbox så label ikke kommer med
+                if (node instanceof CheckBox) {
+                    CheckBox chk = (CheckBox) node; // ændrer til checkbox
+
+                    // Er checkboxen valgt
+                    if (chk.isSelected()) {
+                        // Tager prisen fra den userdata som er gemt der i
+                        double prisForDetteTillæg = (Double) chk.getUserData();
+
+                        samletTillægPris += prisForDetteTillæg;
+                    }
+                }
+            }
+            // Opdaterer tillæg label og tilføjer til total
+            lblTillæg.setText("Tillæg: " + samletTillægPris + " kr.");
+            totalPris += samletTillægPris;
         } else {
             //hvis intet hotel er valgt
             lblHotel.setText("Hotel: 0 kr.");
+            lblTillæg.setText("Tillæg: 0 kr.");
         }
+
         //Opdaterer total pris teksten med den nye udregnede pris
         lblTotal.setText("Total: " + totalPris + " kr.");
     }
 
-    private void opdaterHoteller() {
+    public void opdaterHoteller() {
         //Fjerner alt fra listen
         cbHotel.getItems().clear();
         //Tilføjer Intet hotel som standard på plads 0

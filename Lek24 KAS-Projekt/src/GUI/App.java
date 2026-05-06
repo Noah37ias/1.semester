@@ -40,7 +40,10 @@ public class App {
 
         Hotel h1 = Controller.createHotel(1050,"Den Hvide svane",1250);
         Tillæg t1 = Controller.createTillæg("WIFI",50);
+        Tillæg t2 = Controller.createTillæg("Morgenmad",150);
         h1.addTillæg(t1);
+        h1.addTillæg(t2);
+
 
         Tilmelding tilmelding5 = Controller.createTilmelding(k1,d5,LocalDate.now());
         tilmelding5.setHotel(h1);

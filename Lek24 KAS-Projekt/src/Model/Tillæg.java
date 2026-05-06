@@ -11,6 +11,9 @@ public class Tillæg {
     public double getPris(){
         return pris;
     }
+    public String getNavn(){
+        return navn;
+    }
     @Override
     public String toString() {
         return "Tillæg{" +

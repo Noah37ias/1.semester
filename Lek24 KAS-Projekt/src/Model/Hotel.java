@@ -25,6 +25,9 @@ public class Hotel {
     public String getNavn(){
         return navn;
     }
+    public ArrayList<Tillæg> getTillæg(){
+        return tillæg;
+    }
 
     @Override
     public String toString() {

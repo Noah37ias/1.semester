@@ -10,7 +10,9 @@ public class Konference {
     private LocalDate slutDato;
     private double pris;
     private ArrayList<Hotel> hoteller;
-    private ArrayList<Konference> konferencer;
+    private ArrayList<Udflugt> udflugter = new ArrayList<>();
+    private ArrayList<Tilmelding>tilmeldinger = new ArrayList<>();
+
 
     public Konference(String navn, LocalDate startDato, LocalDate slutDato, String adresse, double pris) {
         this.navn = navn;
