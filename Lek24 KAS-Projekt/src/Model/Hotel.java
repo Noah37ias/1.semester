@@ -31,10 +31,6 @@ public class Hotel {
 
     @Override
     public String toString() {
-        return "Hotel{" +
-                "navn='" + navn + '\'' +
-                ", pris=" + pris +
-                ", tillæg=" + tillæg +
-                '}';
+        return navn + " - " + pris + " kr/nat";
     }
 }

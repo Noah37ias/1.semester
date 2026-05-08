@@ -4,6 +4,7 @@ import Controller.Controller;
 import Model.Hotel;
 import Model.Konference;
 import Model.Tillæg;
+import Model.Udflugt;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -14,17 +15,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 public class TilmeldingGUI extends Application {
-    private ComboBox<String> cbKonference;
-    private ComboBox<String> cbHotel;
+    private ComboBox<Konference> cbKonference;
+    private ComboBox<Hotel> cbHotel;
     private Label lblKonference;
     private Label lblHotel;
     private Label lblTotal;
     private CheckBox cbTillæg;
     private VBox vboxTillæg;
     private Label lblTillæg;
+    private TextField txtAfrejseDato;
+    private CheckBox cbLedsager;
+    private TextField tfLedsagerNavn;
+    private ListView<Udflugt> lswUdflugter = new ListView<>();
 
     @Override
     public void start(Stage stage) {
@@ -38,7 +45,7 @@ public class TilmeldingGUI extends Application {
         scrollPane.setContent(pane);
         scrollPane.setFitToWidth(true);
         //Opretter vores stage samt størrelse
-        Scene scene = new Scene(scrollPane, 400, 600);
+        Scene scene = new Scene(scrollPane, 500, 650);
         stage.setScene(scene);
         //Viser vores stage
         stage.show();
@@ -132,10 +139,7 @@ public class TilmeldingGUI extends Application {
         cbKonference = new ComboBox<>();
         cbKonference.setStyle("-fx-background-color: #ffd966;");
         for (Konference konference : Controller.getKonferencer()) {
-            //Laver en tekststreng med navn og pris
-            String tekstKonference = konference.getNavn() + " - " + konference.getPris() + " kr/dagen";
-            //sætter tekststrengen ind i comboboxen
-            cbKonference.getItems().add(tekstKonference);
+            cbKonference.getItems().add(konference);
         }
         //Hvis man ændrer konference valg skal hoteller opdateres
         cbKonference.setOnAction(event -> {
@@ -175,9 +179,12 @@ public class TilmeldingGUI extends Application {
         TextField txtTelefon = new TextField();
         txtTelefon.setPromptText("XX XX XX XX");//Tilføjer hjælpe tekst i feltet
         Label lblAfrejseDato = new Label("Afrejse dato");
-        TextField txtAfrejseDato = new TextField();
+        txtAfrejseDato = new TextField();
         txtAfrejseDato.setPromptText("YYYY-MM-DD");//Tilføjer hjælpe tekst i feltet
 
+        txtAfrejseDato.textProperty().addListener((_, _, _) -> {
+            opdaterPriser();
+        });
         //Tilføjer alle ting til boksen
         boks.getChildren().addAll(lblTitel, lblNavn, txtNavn, lblFirma, txtFirma, lblAdresse, txtAdresse, lblBy, txtBy, lblTelefon, txtTelefon, lblAfrejseDato, txtAfrejseDato);
         //Giver boksen farve og mellemrum i
@@ -196,7 +203,7 @@ public class TilmeldingGUI extends Application {
         // ComboBox til hotelvalg
         cbHotel = new ComboBox<>();
         //Laver et standard valg, så man ikke er tvunget til at vælge et hotel
-        cbHotel.getItems().add("Intet hotel");
+        cbHotel.getItems().add(null);
         //Hvis man vælget et andet hotel opdateres prisen i totalPris
         cbHotel.setOnAction(event -> {
             opdaterTillæg();
@@ -229,23 +236,19 @@ public class TilmeldingGUI extends Application {
         // clear hvis man skifter hotel
         vboxTillæg.getChildren().clear();
 
-        int valgtKonf = cbKonference.getSelectionModel().getSelectedIndex();
-        int valgtHotelIndex = cbHotel.getSelectionModel().getSelectedIndex();
+        Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
+        Hotel valgtHotel= cbHotel.getSelectionModel().getSelectedItem();
 
         // Hvis der er valgt en konference og et hotel
-        if (valgtKonf >= 0 && valgtHotelIndex > 0) {
+        if (valgtKonf !=null && valgtHotel !=null) {
             //Overskrift
             Label lblEkstra = new Label("Ekstra services");
             lblEkstra.setStyle("-fx-font-weight: bold;");
             vboxTillæg.getChildren().add(lblEkstra);
 
-            Konference valgtKonference = Controller.getKonferencer().get(valgtKonf);
-            Hotel valgtHotel = valgtKonference.getHoteller().get(valgtHotelIndex - 1);
-
             // looper gennem alle tillæg på hotellet
             for (Tillæg tillæg : valgtHotel.getTillæg()) {
                 String tekstTillæg = tillæg.getNavn() + "  -  " + tillæg.getPris() + " kr/nat";
-
                 CheckBox chkNyTillæg = new CheckBox(tekstTillæg);
                 chkNyTillæg.setUserData(tillæg.getPris());
                 chkNyTillæg.setOnAction(event -> opdaterPriser());
@@ -261,8 +264,7 @@ public class TilmeldingGUI extends Application {
         Label lblTitel = new Label("Ledsager");
         lblTitel.setStyle("-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #6e9eeb; -fx-font-family: Consolas;");
         // Checkbox til tilvalg af ledsager
-        CheckBox cbLedsager = new CheckBox("Jeg medbringer en ledsager\n(Giver automatisk dobbeltværelse)");
-
+        cbLedsager = new CheckBox("Jeg medbringer en ledsager\n(Giver automatisk dobbeltværelse)");
 
         // Tilføj alt til boksen
         boks.getChildren().addAll(lblTitel, cbLedsager);
@@ -271,9 +273,21 @@ public class TilmeldingGUI extends Application {
         return boks;
     }
 
-    public void opdaterUdflugter(){
+    public void opdaterUdflugter() {
+        if (cbLedsager.isSelected()) {
 
+        }
     }
+    public VBox opretUdflugter(){
+        VBox boks = new VBox(10);
+        Label lblNavn = new Label("Navn");
+        tfLedsagerNavn = new TextField();
+        tfLedsagerNavn.setPromptText("Fulde navn");
+        Konference valgteKonf = cbKonference.getSelectionModel().getSelectedItem();
+        lswUdflugter.getItems().setAll();
+        return boks;
+    }
+
 
     public VBox prisoversigt() {
         //Opretter en Vertical boks
@@ -295,7 +309,6 @@ public class TilmeldingGUI extends Application {
         Button btnGodkend = new Button("Bekræft tilmelding");
         btnGodkend.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: green;");
 
-
         // Tilføj alt til boksen
         boks.getChildren().addAll(lblTitel, lblKonference, lblHotel, lblTillæg,lblTotal, btnGodkend);
         //Farver og mellemrum på boksen
@@ -309,23 +322,35 @@ public class TilmeldingGUI extends Application {
 
         double totalPris = 0;//Vores total pris variabel
         //Tjekker hvilken konference der er valgt
-        int valgtKonf = cbKonference.getSelectionModel().getSelectedIndex();
-        //Tager objektet fra listen i controlleren
-        Konference valgtKonference = Controller.getKonferencer().get(valgtKonf);
+        Konference valgtKonference = cbKonference.getSelectionModel().getSelectedItem();
+
+        int antalDage = 0;
+        int antalNat = 0;
+
+        try{
+            LocalDate startDato = valgtKonference.getStartDato();
+            LocalDate afrejseDato = java.time.LocalDate.parse(txtAfrejseDato.getText());
+            antalNat = (int) ChronoUnit.DAYS.between(startDato, afrejseDato);
+            antalDage = (int) ChronoUnit.DAYS.between(startDato, afrejseDato)+1;
+            //Sikrer man ikke får en minus dato
+            if (antalNat < 0) antalNat = 0;
+            if (antalDage < 0) antalDage = 0;
+        } catch(Exception e){
+
+        }
+
         //Får prisen på konferencen
-        double konfPris = valgtKonference.getPris();
+        double konfPris = valgtKonference.getPris()*antalDage;
         //Opdaterer teksten så der kommer pris på og tilføjer til totalpris
         lblKonference.setText("Konference: " + konfPris + " kr.");
         totalPris += konfPris;
 
         //Finder det valgte hotel
-        int valgtHotelIndex = cbHotel.getSelectionModel().getSelectedIndex();
+        Hotel valgtHotel = cbHotel.getSelectionModel().getSelectedItem();
         //Hvis det er plads 0 der er valgt skal vi ikke regne noget da prisen er 0 kroner
-        if (valgtHotelIndex > 0) {
-            //Får hotellet fra konferences liste af hoteller og trækker 1 fra da Intet hotel fylder plads 0 ud
-            Hotel valgtHotel = valgtKonference.getHoteller().get(valgtHotelIndex - 1);
+        if (valgtHotel != null) {
             //Får prisen af objektet
-            double hotelPris = valgtHotel.getPris();
+            double hotelPris = valgtHotel.getPris()*antalNat;
             //Opdaterer teksten og tilføjer til totalpris
             lblHotel.setText("Hotel: " + hotelPris + " kr.");
 
@@ -342,9 +367,9 @@ public class TilmeldingGUI extends Application {
                     // Er checkboxen valgt
                     if (chk.isSelected()) {
                         // Tager prisen fra den userdata som er gemt der i
-                        double prisForDetteTillæg = (Double) chk.getUserData();
+                        double prisForDetteTillæg = (Double) chk.getUserData()*antalNat;
 
-                        samletTillægPris += prisForDetteTillæg;
+                        samletTillægPris = samletTillægPris+ (prisForDetteTillæg);
                     }
                 }
             }
@@ -364,24 +389,18 @@ public class TilmeldingGUI extends Application {
     public void opdaterHoteller() {
         //Fjerner alt fra listen
         cbHotel.getItems().clear();
-        //Tilføjer Intet hotel som standard på plads 0
-        cbHotel.getItems().add("Intet hotel");
+        //Tilføjer intet hotel til listen
+        cbHotel.getItems().add(null);
         // Tjekker hvilken konference der er valgt lige nu
-        int valgtKonfIndex = cbKonference.getSelectionModel().getSelectedIndex();
-        //Hvis man har valgt en konference
-        if (valgtKonfIndex >= 0) {
-            //tager konfernce objeketet
-            Konference valgtKonference = Controller.getKonferencer().get(valgtKonfIndex);
+        Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
+
             //Får listen af hoteller fra den konferenc
-            for (Hotel hotel : valgtKonference.getHoteller()) {
-                //Opretter en tekst med hotel navn og pris
-                String tekstHotel = hotel.getNavn() + " - " + hotel.getPris() + " kr/nat";
-                //Tilføjer teksten til comboboxen
-                cbHotel.getItems().add(tekstHotel);
+            for (Hotel hotel : valgtKonf.getHoteller()) {
+                cbHotel.getItems().add(hotel);
             }
-        }
-        //Gør så man starter på "Intet hotel" igen
         cbHotel.getSelectionModel().selectFirst();
+        }
+
     }
-}
+
 

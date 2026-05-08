@@ -43,7 +43,9 @@ public class App {
         Tillæg t2 = Controller.createTillæg("Morgenmad",150);
         h1.addTillæg(t1);
         h1.addTillæg(t2);
-
+        k1.addUdflugt(u1);
+        k1.addUdflugt(u2);
+        k1.addUdflugt(u3);
 
         Tilmelding tilmelding5 = Controller.createTilmelding(k1,d5,LocalDate.now());
         tilmelding5.setHotel(h1);

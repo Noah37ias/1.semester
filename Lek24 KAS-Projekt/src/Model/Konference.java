@@ -13,7 +13,6 @@ public class Konference {
     private ArrayList<Udflugt> udflugter = new ArrayList<>();
     private ArrayList<Tilmelding>tilmeldinger = new ArrayList<>();
 
-
     public Konference(String navn, LocalDate startDato, LocalDate slutDato, String adresse, double pris) {
         this.navn = navn;
         this.slutDato = slutDato;
@@ -42,5 +41,13 @@ public class Konference {
     }
     public void addHotel(Hotel hotel){
         hoteller.add(hotel);
+    }
+    public void addUdflugt(Udflugt udflugt){
+        udflugter.add(udflugt);
+    }
+
+    @Override
+    public String toString() {
+        return navn +" - " + pris + "pr/dag";
     }
 }
