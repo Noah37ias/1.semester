@@ -66,4 +66,17 @@ public class Tilmelding {
     public int antalDage() {
         return (int) ChronoUnit.DAYS.between(konference.getStartDato(), deltager.getAfrejseDato()) + 1;
     }
+
+    @Override
+    public String toString() {
+        return "Tilmelding{" +
+                "ankomstDato=" + ankomstDato +
+                ", deltager=" + deltager +
+                ", konference=" + konference +
+                ", ledsager=" + ledsager +
+                ", hotel=" + hotel +
+                ", bestillingsdato=" + bestillingsdato +
+                ", tillæg=" + tillæg +
+                '}';
+    }
 }

@@ -17,4 +17,7 @@ public class Udflugt {
     public double getPris(){
         return pris;
     }
+    public String toString(){
+        return navn + " - " +pris +" - " + dato;
+    }
 }

@@ -41,4 +41,8 @@ public abstract class Storage {
     public static ArrayList<Konference> getKonferencer() {
         return konferencer;
     }
+
+    public static ArrayList<Tilmelding> getTilmeldinger() {
+        return tilmeldinger;
+    }
 }

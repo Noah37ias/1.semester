@@ -14,7 +14,7 @@ public class App {
     }
     public static void initStorage(){
         Konference k1 = Controller.createKonference("Hav og himmel", LocalDate.of(2026,5,28),LocalDate.of(2026,5,30),"Odense universitet",1500);
-        Konference k2 = Controller.createKonference("Himmel og Hav", LocalDate.of(2027,5,28),LocalDate.of(2026,5,30),"Odense universitet",1667);
+        Konference k2 = Controller.createKonference("Himmel og Hav", LocalDate.of(2026,5,28),LocalDate.of(2026,5,30),"Odense universitet",1667);
 
 
         Deltager d1 = Controller.createDeltager("Finn Madsen","Psykovej 67", false,LocalDate.of(2026,5,30),"52243141","57575757","Århus");

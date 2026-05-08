@@ -53,5 +53,8 @@ public abstract class Controller {
     public static ArrayList<Konference> getKonferencer() {
         return Storage.getKonferencer();
     }
+    public static ArrayList<Tilmelding> getTilmeldinger() {
+        return Storage.getTilmeldinger();
+    }
 }
 

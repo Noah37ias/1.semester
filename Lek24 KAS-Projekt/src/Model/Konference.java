@@ -45,9 +45,12 @@ public class Konference {
     public void addUdflugt(Udflugt udflugt){
         udflugter.add(udflugt);
     }
+    public ArrayList<Udflugt> getUdflugter(){
+        return udflugter;
+    }
 
     @Override
     public String toString() {
-        return navn +" - " + pris + "pr/dag";
+        return navn +" - " + pris + "pr/dag" + " - " + startDato + "/"+slutDato;
     }
 }
