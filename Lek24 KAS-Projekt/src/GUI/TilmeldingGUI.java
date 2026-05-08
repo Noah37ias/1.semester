@@ -29,7 +29,7 @@ public class TilmeldingGUI extends Application {
     private CheckBox cbForedragsholder;
     private CheckBox cbLedsager;
     private TextField tfLedsagerNavn;
-    private ListView<Udflugt> lswUdflugter = new ListView<>();
+    private ListView<Udflugt> lswUdflugter;
     private VBox vboxudflugter;
     private Label lblUdflugter;
     private TextField txtNavn;
@@ -154,6 +154,7 @@ public class TilmeldingGUI extends Application {
         cbKonference.setOnAction(event -> {
             opdaterHoteller();
             opdaterPriser();
+            opdaterUdflugter();
             if (cbKonference.getSelectionModel().getSelectedItem() != null) {
                 lblKonfAdresse.setText(" \uD83D\uDCCD" + cbKonference.getSelectionModel().getSelectedItem().getAdresse());
             }
@@ -311,7 +312,9 @@ public class TilmeldingGUI extends Application {
             }
             opdaterPriser();
         });
-
+        lswUdflugter.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
+            opdaterPriser();
+        });
 
         // Tilføj alt til boksen
         boks.getChildren().addAll(lblTitel, cbLedsager, vboxudflugter);
@@ -322,11 +325,10 @@ public class TilmeldingGUI extends Application {
 
     public void opdaterUdflugter() {
         Konference valgteKonf = cbKonference.getSelectionModel().getSelectedItem();
-        lswUdflugter.getSelectionModel().selectedItemProperty().addListener((_, _, _) -> {
-            opdaterPriser();
-        });
         if (valgteKonf != null) {
             lswUdflugter.getItems().setAll(valgteKonf.getUdflugter());
+        } else{
+            lswUdflugter.getItems().clear();
         }
 
     }
