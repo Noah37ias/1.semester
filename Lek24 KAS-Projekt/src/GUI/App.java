@@ -47,15 +47,23 @@ public class App {
         k1.addUdflugt(u2);
         k1.addUdflugt(u3);
 
-        Tilmelding tilmelding5 = Controller.createTilmelding(k1,d5,LocalDate.now());
-        tilmelding5.setHotel(h1);
-        tilmelding5.addTillæg(t1);
-        tilmelding5.setLedsager(l3);
-        IO.println(tilmelding5.totalPris());
+        Tilmelding tilmelding1 = Controller.createTilmelding(k1,d1,LocalDate.now());
+
+        Tilmelding tilmelding2 = Controller.createTilmelding(k1,d2,LocalDate.now());
+        tilmelding2.setHotel(h1);
 
         Tilmelding tilmelding3 = Controller.createTilmelding(k1,d3,LocalDate.now());
         tilmelding3.setLedsager(l1);
         k1.addHotel(h1);
 
+        Tilmelding tilmelding4 = Controller.createTilmelding(k1,d4,LocalDate.now());
+        tilmelding4.setHotel(h1);
+        tilmelding4.setLedsager(l2);
+        tilmelding4.addTillæg(t1);
+
+        Tilmelding tilmelding5 = Controller.createTilmelding(k1,d5,LocalDate.now());
+        tilmelding5.setHotel(h1);
+        tilmelding5.addTillæg(t1);
+        tilmelding5.setLedsager(l3);
     }
 }

@@ -21,4 +21,9 @@ public class Ledsager extends Person {
         }
         return total;
     }
+
+
+    public ArrayList<Udflugt> getUdflugter() {
+        return udflugter;
+    }
 }

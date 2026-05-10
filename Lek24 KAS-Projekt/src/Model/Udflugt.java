@@ -20,4 +20,8 @@ public class Udflugt {
     public String toString(){
         return navn + " - " +pris +" - " + dato;
     }
+
+    public String getNavn() {
+        return navn;
+    }
 }

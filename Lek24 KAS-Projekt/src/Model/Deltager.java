@@ -27,4 +27,19 @@ public class Deltager extends Person{
     public boolean isForedragsholder(){
         return foredragsholder == true;
     }
+
+    public String getFirmaTlfNr() {
+        return firmaTlfNr;
+    }
+
+    public String getTelefonNr() {
+        return telefonNr;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+    public String getBy() {
+        return by;
+    }
 }

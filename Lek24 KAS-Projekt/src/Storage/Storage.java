@@ -1,13 +1,15 @@
 package Storage;
 
 import Model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
 public abstract class Storage {
     private static final ArrayList<Hotel> hoteller = new ArrayList<>();
     private static final ArrayList<Tilmelding> tilmeldinger = new ArrayList<>();
-    private static final ArrayList<Konference> konferencer = new ArrayList<>();
+    private static final ObservableList<Konference> konferencer = FXCollections.observableArrayList();
     private static final ArrayList<Deltager> deltagere = new ArrayList<>();
     private static final ArrayList<Ledsager> ledsagere = new ArrayList<>();
     private static final ArrayList<Tillæg> tillægs = new ArrayList<>();
@@ -38,11 +40,15 @@ public abstract class Storage {
     public static ArrayList<Hotel> getHoteller() {
         return hoteller;
     }
-    public static ArrayList<Konference> getKonferencer() {
+    public static ObservableList<Konference> getKonferencer() {
         return konferencer;
     }
 
     public static ArrayList<Tilmelding> getTilmeldinger() {
         return tilmeldinger;
+    }
+
+    public static void removeTilmelding(Tilmelding tilmelding){
+        tilmeldinger.remove(tilmelding);
     }
 }

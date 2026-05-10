@@ -17,7 +17,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 public class TilmeldingGUI extends Application {
-    private ComboBox<Konference> cbKonference;
+    public ComboBox<Konference> cbKonference;
     private ComboBox<Hotel> cbHotel;
     private Label lblKonference;
     private Label lblHotel;
@@ -146,10 +146,7 @@ public class TilmeldingGUI extends Application {
         // ComboBox til konference valg
         cbKonference = new ComboBox<>();
         cbKonference.setStyle("-fx-background-color: #ffd966;");
-        cbKonference.getItems().add(null);
-        for (Konference konference : Controller.getKonferencer()) {
-            cbKonference.getItems().add(konference);
-        }
+        cbKonference.setItems(Controller.getKonferencer());
         //Hvis man ændrer konference valg skal hoteller opdateres
         cbKonference.setOnAction(event -> {
             opdaterHoteller();

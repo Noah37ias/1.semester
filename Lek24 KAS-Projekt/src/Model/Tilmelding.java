@@ -28,21 +28,16 @@ public class Tilmelding {
         double tTotal = 0;
         if (!deltager.isForedragsholder()) {
             kTotal = konference.getPris() * antalDage();
-            IO.println("Konf" + kTotal);
         }
 
         if (ledsager != null) {
             lTotal += ledsager.totalPrisUdflugter();
-            IO.println("Ledsager" + lTotal);
             if (hotel != null) {
                 hTotal += hotel.getDobbeltPris() * (antalDage() - 1);
-                IO.println("dobbeltHotel" + hTotal);
             }
         } else {
             if(hotel != null) {
                 hTotal += hotel.getPris() * (antalDage() - 1);
-                IO.println("Hotel" + hTotal);
-                IO.println("tillæg" + tTotal);
             }
         }
         for (Tillæg tillæg : tillæg) {
@@ -66,17 +61,26 @@ public class Tilmelding {
     public int antalDage() {
         return (int) ChronoUnit.DAYS.between(konference.getStartDato(), deltager.getAfrejseDato()) + 1;
     }
-
+    public Deltager getDeltager(){
+        return deltager;
+    }
     @Override
     public String toString() {
-        return "Tilmelding{" +
-                "ankomstDato=" + ankomstDato +
-                ", deltager=" + deltager +
-                ", konference=" + konference +
-                ", ledsager=" + ledsager +
-                ", hotel=" + hotel +
-                ", bestillingsdato=" + bestillingsdato +
-                ", tillæg=" + tillæg +
-                '}';
+        return deltager.getNavn() + " " + LocalDate.parse(bestillingsdato.toString());
+    }
+
+    public Konference getKonference() {
+        return konference;
+    }
+
+    public Ledsager getLedsager() {
+        return ledsager;
+    }
+
+    public Hotel getHotel() {
+        return hotel;
+    }
+    public ArrayList<Tillæg> getTillæg() {
+        return tillæg;
     }
 }

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.*;
 import Storage.Storage;
+import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,11 +51,14 @@ public abstract class Controller {
     public static ArrayList<Hotel> getHoteller() {
         return Storage.getHoteller();
     }
-    public static ArrayList<Konference> getKonferencer() {
+    public static ObservableList<Konference> getKonferencer() {
         return Storage.getKonferencer();
     }
     public static ArrayList<Tilmelding> getTilmeldinger() {
         return Storage.getTilmeldinger();
+    }
+    public static void removeTilmelding(Tilmelding tilmelding){
+        Storage.removeTilmelding(tilmelding);
     }
 }
 
