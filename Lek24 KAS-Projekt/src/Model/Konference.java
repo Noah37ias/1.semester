@@ -1,8 +1,13 @@
 package Model;
 
+import javafx.collections.ObservableList;
+import org.jspecify.annotations.NullMarked;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
 
+@NullMarked
 public class Konference {
     private String navn;
     private String adresse;
@@ -11,7 +16,7 @@ public class Konference {
     private double pris;
     private ArrayList<Hotel> hoteller;
     private ArrayList<Udflugt> udflugter = new ArrayList<>();
-    private ArrayList<Tilmelding>tilmeldinger = new ArrayList<>();
+    private ObservableList<Tilmelding> tilmeldinger = FXCollections.observableArrayList();
 
     public Konference(String navn, LocalDate startDato, LocalDate slutDato, String adresse, double pris) {
         this.navn = navn;
@@ -47,6 +52,13 @@ public class Konference {
     }
     public ArrayList<Udflugt> getUdflugter(){
         return udflugter;
+    }
+    public ObservableList<Tilmelding> getTilmeldinger(){
+        return tilmeldinger;
+    }
+
+    public void addTilmelding(Tilmelding t){
+        tilmeldinger.add(t);
     }
 
     @Override

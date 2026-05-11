@@ -65,5 +65,7 @@ public class App {
         tilmelding5.setHotel(h1);
         tilmelding5.addTillæg(t1);
         tilmelding5.setLedsager(l3);
+
+        IO.println(k1.getTilmeldinger());
     }
 }

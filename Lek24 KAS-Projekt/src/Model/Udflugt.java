@@ -1,8 +1,11 @@
 package Model;
 
+import org.jspecify.annotations.NullMarked;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+@NullMarked
 public class Udflugt {
     private String navn;
     private double pris;

@@ -1,15 +1,18 @@
 package Model;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-
+@NullMarked
 public class Tilmelding {
-    private LocalDateTime ankomstDato;
     private Deltager deltager;
     private Konference konference;
+    @Nullable
     private Ledsager ledsager;
+    @Nullable
     private Hotel hotel;
     private LocalDate bestillingsdato;
     private ArrayList<Tillæg> tillæg = new ArrayList<>();
@@ -66,18 +69,18 @@ public class Tilmelding {
     }
     @Override
     public String toString() {
-        return deltager.getNavn() + " " + LocalDate.parse(bestillingsdato.toString());
+        return deltager.getNavn() + " - Bestillingsdato: " + LocalDate.parse(bestillingsdato.toString());
     }
 
     public Konference getKonference() {
         return konference;
     }
 
-    public Ledsager getLedsager() {
+    public @Nullable Ledsager getLedsager() {
         return ledsager;
     }
 
-    public Hotel getHotel() {
+    public @Nullable Hotel getHotel() {
         return hotel;
     }
     public ArrayList<Tillæg> getTillæg() {

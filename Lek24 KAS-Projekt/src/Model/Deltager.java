@@ -1,7 +1,10 @@
 package Model;
 
+import org.jspecify.annotations.NullMarked;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+@NullMarked
 
 public class Deltager extends Person{
     private String adresse;

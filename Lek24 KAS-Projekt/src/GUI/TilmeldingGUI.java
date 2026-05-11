@@ -11,7 +11,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -22,7 +21,6 @@ public class TilmeldingGUI extends Application {
     private Label lblKonference;
     private Label lblHotel;
     private Label lblTotal;
-    private CheckBox cbTillæg;
     private VBox vboxTillæg;
     private Label lblTillæg;
     private TextField txtAfrejseDato;
@@ -75,8 +73,8 @@ public class TilmeldingGUI extends Application {
         btnAdmin.setOnAction(event -> {//Hvis der trykkes på admin knappen, åbner pop up
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Admin Login");
-            dialog.setHeaderText("KUN ADGANG FOR SEJE ADMINS :)");
-            dialog.setContentText("Indtast adgangskode:");
+            dialog.setHeaderText("Koden er 6767");
+            dialog.setContentText("Indsæt 6767 ");
             DialogPane dialogPane = dialog.getDialogPane();
             dialogPane.setStyle("-fx-background-color: orange;");
             Optional<String> result = dialog.showAndWait();
@@ -306,6 +304,7 @@ public class TilmeldingGUI extends Application {
                 //eller hvis man vælger intet hotel igen skjul det
                 vboxudflugter.setVisible(false);
                 vboxudflugter.setManaged(false);
+                lswUdflugter.getSelectionModel().clearSelection();
             }
             opdaterPriser();
         });
@@ -542,6 +541,7 @@ public class TilmeldingGUI extends Application {
             txtAfrejseDato.clear();
             cbKonference.getSelectionModel().clearSelection();
             cbHotel.getSelectionModel().clearSelection();
+            tfLedsagerNavn.clear();
         });
     }
 }

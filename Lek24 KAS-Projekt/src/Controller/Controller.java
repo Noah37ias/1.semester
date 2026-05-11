@@ -27,6 +27,7 @@ public abstract class Controller {
     public static Tilmelding createTilmelding(Konference konference, Deltager deltager, LocalDate bestillingsdato){
         Tilmelding tilmelding = new Tilmelding(konference,deltager,bestillingsdato);
         Storage.storeTilmelding(tilmelding);
+        konference.addTilmelding(tilmelding);
         return tilmelding;
     }
     public static Ledsager createLedsager(String navn){

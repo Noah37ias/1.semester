@@ -10,9 +10,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.jspecify.annotations.NullMarked;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+@NullMarked
 
 public class AdminGUI extends Stage {
     private ListView<Tilmelding> lstTilmelding;
@@ -25,7 +27,7 @@ public class AdminGUI extends Stage {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(adminPane);
         scrollPane.setFitToWidth(true);
-        Scene scene = new Scene(adminPane, 1000, 800);
+        Scene scene = new Scene(scrollPane, 800, 800);
         this.setScene(scene);
         initContent(adminPane);
     }
@@ -44,9 +46,24 @@ public class AdminGUI extends Stage {
         Label lblListeTitel = new Label("Tilmeldinger");
         lblListeTitel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
 
+        Label lblKonferenceTitel = new Label("Vælg konference: ");
+        lblKonferenceTitel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+
+        ComboBox<Konference> cbKonference = new ComboBox<>();
+        cbKonference.getItems().setAll(Controller.getKonferencer());
+
+
         lstTilmelding = new ListView<>();
-        lstTilmelding.getItems().setAll(Controller.getTilmeldinger());
-        lstTilmelding.setPrefHeight(200);
+        lstTilmelding.setMaxHeight(150);
+
+        cbKonference.setOnAction(event -> {
+           {
+                Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
+                if(valgtKonf!=null) {
+                    lstTilmelding.getItems().setAll(valgtKonf.getTilmeldinger());
+                    }
+            }
+        });
 
         // Detaljefeltet
         Label lblDetaljeTitel = new Label("Detaljer for valgt tilmelding");
@@ -55,21 +72,23 @@ public class AdminGUI extends Stage {
         txatDetaljer = new TextArea();
         txatDetaljer.setEditable(false);//Så man ikke kan slette eller skrive i feltet
         txatDetaljer.setPromptText("Vælg en tilmelding for at se detaljer...");
-        txatDetaljer.setPrefHeight(300);
+        txatDetaljer.setPrefHeight(150);
 
         //Når man vælger ny deltager
-        lstTilmelding.getSelectionModel().selectedItemProperty().addListener((obs, gammel, ny) -> {
+        lstTilmelding.getSelectionModel().selectedItemProperty().addListener((_, _, ny) -> {
             visTilmeldingDetaljer(ny);
         });
 
         Button fjern = new Button("Fjern tilmelding");
+        Tilmelding t = lstTilmelding.getSelectionModel().getSelectedItem();
+        Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
         fjern.setOnMouseClicked(event -> {
-            Tilmelding t = lstTilmelding.getSelectionModel().getSelectedItem();
             Controller.removeTilmelding(t);
-            lstTilmelding.getItems().setAll(Controller.getTilmeldinger());
+            lstTilmelding.getItems().setAll(valgtKonf.getTilmeldinger());
+            txatDetaljer.clear();
         });
 
-        vboxVenstre.getChildren().addAll(lblListeTitel, lstTilmelding, lblDetaljeTitel, txatDetaljer, fjern);
+        vboxVenstre.getChildren().addAll(lblKonferenceTitel,cbKonference,lblListeTitel, lstTilmelding, lblDetaljeTitel, txatDetaljer, fjern);
         pane.add(vboxVenstre, 0, 0);
 
         // Registrer Konference
@@ -251,11 +270,11 @@ public class AdminGUI extends Stage {
             tekst += "Foredragholder: ❌\n\n";
         }
 
-        tekst += "KONFERENCE:\n";
+        tekst += "KONFERENCE INFO:\n";
         tekst += "Navn: " + t.getKonference().getNavn() + "\n";
         tekst += "Afrejse: " + d.getAfrejseDato() + "\n\n";
 
-        tekst += "Hotel:\n";
+        tekst += "HOTEL INFO:\n";
         if (t.getHotel() != null) {
             tekst += "Hotel: " + t.getHotel().getNavn() + "\n";
             tekst += "Tillæg: ";

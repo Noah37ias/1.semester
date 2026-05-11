@@ -1,5 +1,9 @@
 package Model;
 
+import org.jspecify.annotations.NullMarked;
+
+@NullMarked
+
 public class Person {
     private String navn;
 
