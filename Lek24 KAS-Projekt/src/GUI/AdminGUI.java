@@ -9,6 +9,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
@@ -45,6 +46,8 @@ public class AdminGUI extends Stage {
 
         //Liste og Detaljer
         VBox vboxVenstre = new VBox(15);
+        vboxVenstre.setStyle("-fx-background-color: #f2f2ef; -fx-padding: 15; -fx-border-color: black; -fx-border-radius: 5;");
+
 
         Label lblListeTitel = new Label("Tilmeldinger");
         lblListeTitel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
@@ -108,7 +111,7 @@ public class AdminGUI extends Stage {
         gemHotelFil();
 
         VBox vBoxHotel = VisHotel();
-        vboxVenstre.getChildren().addAll(lblKonferenceTitel, cbKonference, lblListeTitel, lstTilmelding, lblDetaljeTitel, txatDetaljer, fjern, btnVisUdflugter,vBoxHotel);
+        vboxVenstre.getChildren().addAll(lblKonferenceTitel, cbKonference, lblListeTitel, lstTilmelding, lblDetaljeTitel, txatDetaljer, fjern, btnVisUdflugter, vBoxHotel);
         pane.add(vboxVenstre, 0, 0);
 
         // Registrer Konference
@@ -117,6 +120,9 @@ public class AdminGUI extends Stage {
 
         VBox vboxUdflugt = visUdlugtOgLedsager();
         pane.add(vboxUdflugt, 0, 1);
+
+        VBox vboxSøg = søgDeltagerBoks();
+        pane.add(vboxSøg, 1, 1);
 
 
 
@@ -341,7 +347,7 @@ public class AdminGUI extends Stage {
 
     private VBox visUdlugtOgLedsager() {
         VBox vboxUdflugt = new VBox(15);
-
+        vboxUdflugt.setStyle("-fx-background-color: #f2f2ef; -fx-padding: 15; -fx-border-color: black;");
         Label lblUdflugt = new Label("Udflugter");
         lblUdflugt.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
 
@@ -369,7 +375,7 @@ public class AdminGUI extends Stage {
         String tekst = "UDFLUGTER: " + konference.getNavn() + "\n";
         tekst += "--------------------------------------------------\n";
         for (Udflugt u : konference.getUdflugter()) {
-            tekst+= "Udflugt: " + u.getNavn() + "\n";
+            tekst += "Udflugt: " + u.getNavn() + "\n";
             for (Tilmelding t : konference.getTilmeldinger()) {
                 Ledsager ledsager = t.getLedsager();
                 Deltager deltager = t.getDeltager();
@@ -412,7 +418,8 @@ public class AdminGUI extends Stage {
         popupVindue.setScene(scene);
         popupVindue.show();
     }
-    private VBox VisHotel(){
+
+    private VBox VisHotel() {
         VBox vboxHotel = new VBox(15);
 
         Label lblHotel = new Label("Hoteller");
@@ -424,10 +431,11 @@ public class AdminGUI extends Stage {
         txatDetaljerHotel.setPrefHeight(300);
         txatDetaljerHotel.setText(hotelOversigt());
         Button btnGem = gemHotelFil();
-        vboxHotel.getChildren().addAll(lblHotel, txatDetaljerHotel,btnGem);
+        vboxHotel.getChildren().addAll(lblHotel, txatDetaljerHotel, btnGem);
         return vboxHotel;
     }
-    private String hotelOversigt(){
+
+    private String hotelOversigt() {
         String tekst = "";
         for (String s : Controller.hotelList()) {
             tekst += s + "\n";
@@ -440,14 +448,15 @@ public class AdminGUI extends Stage {
 
                     if (t.getLedsager() != null) {
                         tekst += "      Ledsager: "
-                                        + t.getLedsager().getNavn() + "\n";
+                                + t.getLedsager().getNavn() + "\n";
                     }
                 }
             }
         }
         return tekst;
     }
-    private Button gemHotelFil(){
+
+    private Button gemHotelFil() {
         Button btnGem = new Button("Gem hoteloversigt til fil");
         btnGem.setStyle("-fx-background-color: #6e9eeb; -fx-text-fill: red; -fx-font-weight: bold;");
 
@@ -462,5 +471,67 @@ public class AdminGUI extends Stage {
             }
         });
         return btnGem;
+    }
+
+    private VBox søgDeltagerBoks() {
+        VBox boks = new VBox(10);
+        boks.setStyle("-fx-background-color: #f2f2ef; -fx-padding: 15; -fx-border-color: black;");
+
+        Label lblTitel = new Label("Søg efter deltager");
+        lblTitel.setStyle("-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #6e9eeb;");
+
+        TextField txtSøgNavn = new TextField();
+        txtSøgNavn.setPromptText("Indtast deltagerens navn her");
+
+        Button btnSøg = new Button("Find tilmeldinger");
+        btnSøg.setStyle("-fx-background-color: #6e9eeb; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        TextArea txatSøgeResultat = new TextArea();
+        txatSøgeResultat.setEditable(false);
+        txatSøgeResultat.setPrefHeight(50);
+
+        btnSøg.setOnAction(event -> {
+            String søgteNavn = txtSøgNavn.getText().trim().toLowerCase();
+
+            if (søgteNavn.isEmpty()) {
+                visFejl("Mangler input", "Indtast et navn du vil søge efter.");
+                return;
+            }
+
+            String resultat = "";
+            double samletPris = 0;
+            boolean fundet = false;
+
+            // Gennemgår alle tilmeldinger i hele systemet for alle konferencer
+            for (Tilmelding t : Controller.getTilmeldinger()) {
+
+                // Tjekker om deltagerens navn indeholder det indtastede
+                if (t.getDeltager().getNavn().toLowerCase().contains(søgteNavn)) {
+                    fundet = true;
+                    resultat += "Konference: " + t.getKonference().getNavn() + "\n";
+
+                    if (t.getHotel() != null) {
+                        resultat += "Hotel: " + t.getHotel().getNavn() + "\n";
+                    }
+                    if (t.getLedsager() != null) {
+                        resultat += "Ledsager: " + t.getLedsager().getNavn() + "\n";
+                    }
+
+                    resultat += "Pris for denne tilmelding: " + t.totalPris() + " kr.\n";
+                    //Udregner pris
+                    samletPris += t.totalPris();
+                }
+            }
+
+            if (!fundet) {
+                resultat += "Ingen tilmeldinger fundet for denne person :(";
+            } else {
+                // Summen af priserne hvis navnet fremgår flere gange
+                resultat += "samlet pris: " + samletPris + "kr.";
+            }
+            txatSøgeResultat.setText(resultat);
+        });
+        boks.getChildren().addAll(lblTitel, txtSøgNavn, btnSøg, txatSøgeResultat);
+        return boks;
     }
 }
