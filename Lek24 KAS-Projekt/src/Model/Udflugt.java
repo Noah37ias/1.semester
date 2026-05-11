@@ -7,10 +7,10 @@ import java.util.ArrayList;
 
 @NullMarked
 public class Udflugt {
-    private String navn;
-    private double pris;
-    private LocalDate dato;
-    private ArrayList<Ledsager> ledsagere = new ArrayList<>();
+    private final String navn;
+    private final double pris;
+    private final LocalDate dato;
+    private final ArrayList<Ledsager> ledsagere = new ArrayList<>();
 
     public Udflugt(String navn, LocalDate dato, double pris) {
         this.navn = navn;
@@ -26,5 +26,11 @@ public class Udflugt {
 
     public String getNavn() {
         return navn;
+    }
+    public void addLedsager(Ledsager ledsager) {
+        ledsagere.add(ledsager);
+    }
+    public ArrayList<Ledsager> getLedsagere() {
+        return ledsagere;
     }
 }

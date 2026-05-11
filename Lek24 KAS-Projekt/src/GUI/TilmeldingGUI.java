@@ -11,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -181,18 +182,23 @@ public class TilmeldingGUI extends Application {
         txtNavn.setStyle("-fx-background-color: #ffd966;");
         Label lblFirma = new Label("Firma tlf(valgfri)");
         txtFirma.setPromptText("Hvis betalt af firma");//Tilføjer hjælpe tekst i feltet
+        txtFirma.setStyle("-fx-background-color: #ffd966;");
         Label lblAdresse = new Label("Adresse");
         txtAdresse.setPromptText("Vejnavn og nummer");//Tilføjer hjælpe tekst i feltet
+        txtAdresse.setStyle("-fx-background-color: #ffd966;");
         Label lblBy = new Label("By");
         txtBy.setPromptText("Postnummer");//Tilføjer hjælpe tekst i feltet
+        txtBy.setStyle("-fx-background-color: #ffd966;");
         Label lblTelefon = new Label("Telefon nummer");
         txtTelefon.setPromptText("XX XX XX XX");//Tilføjer hjælpe tekst i feltet
+        txtTelefon.setStyle("-fx-background-color: #ffd966;");
         Label lblAfrejseDato = new Label("Afrejse dato");
         txtAfrejseDato = new TextField();
         txtAfrejseDato.setPromptText("YYYY-MM-DD");//Tilføjer hjælpe tekst i feltet
+        txtAfrejseDato.setStyle("-fx-background-color: #ffd966;");
         cbForedragsholder = new CheckBox("Er du foredragsholder?");
         cbForedragsholder.setOnAction(e -> {
-        opdaterPriser();
+            opdaterPriser();
         });
         txtAfrejseDato.textProperty().addListener((_, _, _) -> {
             opdaterPriser();
@@ -214,6 +220,7 @@ public class TilmeldingGUI extends Application {
 
         // ComboBox til hotelvalg
         cbHotel = new ComboBox<>();
+        cbHotel.setStyle("-fx-background-color: #ffd966;");
         //Laver et standard valg, så man ikke er tvunget til at vælge et hotel
         cbHotel.getItems().add(null);
         //Hvis man vælget et andet hotel opdateres prisen i totalPris
@@ -263,7 +270,7 @@ public class TilmeldingGUI extends Application {
             for (Tillæg tillæg : valgtHotel.getTillæg()) {
                 String tekstTillæg = tillæg.getNavn() + "  -  " + tillæg.getPris() + " kr/nat";
                 CheckBox chkNyTillæg = new CheckBox(tekstTillæg);
-                chkNyTillæg.setUserData(tillæg.getPris());
+                chkNyTillæg.setUserData(tillæg);
                 chkNyTillæg.setOnAction(event -> opdaterPriser());
                 vboxTillæg.getChildren().add(chkNyTillæg);
             }
@@ -283,6 +290,8 @@ public class TilmeldingGUI extends Application {
         Label lblNavn = new Label("Navn");
         tfLedsagerNavn = new TextField();
         tfLedsagerNavn.setPromptText("Fulde navn");
+        tfLedsagerNavn.setStyle("-fx-background-color: #ffd966;");
+
         Label liste = new Label("Vælg ønskede udflugter:");
         lswUdflugter = new ListView<>();
         lswUdflugter.setPrefHeight(100);
@@ -323,7 +332,7 @@ public class TilmeldingGUI extends Application {
         Konference valgteKonf = cbKonference.getSelectionModel().getSelectedItem();
         if (valgteKonf != null) {
             lswUdflugter.getItems().setAll(valgteKonf.getUdflugter());
-        } else{
+        } else {
             lswUdflugter.getItems().clear();
         }
 
@@ -390,14 +399,13 @@ public class TilmeldingGUI extends Application {
 
         }
 
-        if(!cbForedragsholder.isSelected()) {
+        if (!cbForedragsholder.isSelected()) {
             //Får prisen på konferencen
             double konfPris = valgtKonference.getPris() * antalDage;
             //Opdaterer teksten så der kommer pris på og tilføjer til totalpris
             lblKonference.setText("Konference: " + konfPris + " kr.");
             totalPris += konfPris;
-        }
-        else{
+        } else {
 
             lblKonference.setText("Konference: 0 kr / FOREDRAGSHOLDER.");
         }
@@ -406,11 +414,14 @@ public class TilmeldingGUI extends Application {
         Hotel valgtHotel = cbHotel.getSelectionModel().getSelectedItem();
         //Hvis det er plads 0 der er valgt skal vi ikke regne noget da prisen er 0 kroner
         if (valgtHotel != null) {
-            //Får prisen af objektet
-            double hotelPris = valgtHotel.getPris() * antalNat;
+            double hotelPris;
+            if (cbLedsager.isSelected()) {
+                hotelPris = valgtHotel.getDobbeltPris() * antalNat;
+            } else {
+                hotelPris = valgtHotel.getPris() * antalNat;
+            }
             //Opdaterer teksten og tilføjer til totalpris
             lblHotel.setText("Hotel: " + hotelPris + " kr.");
-
             totalPris += hotelPris;
 
             double samletTillægPris = 0;
@@ -424,7 +435,7 @@ public class TilmeldingGUI extends Application {
                     // Er checkboxen valgt
                     if (chk.isSelected()) {
                         // Tager prisen fra den userdata som er gemt der i
-                        double prisForDetteTillæg = (Double) chk.getUserData() * antalNat;
+                        double prisForDetteTillæg = ((Tillæg) chk.getUserData()).getPris() * antalNat;
 
                         samletTillægPris = samletTillægPris + (prisForDetteTillæg);
                     }
@@ -444,6 +455,7 @@ public class TilmeldingGUI extends Application {
         }
         lblUdflugter.setText("Udflugter: " + udflugtPris + " kr.");
         totalPris += udflugtPris;
+
 
         //Opdaterer total pris teksten med den nye udregnede pris
         lblTotal.setText("Total: " + totalPris + " kr.");
@@ -494,28 +506,28 @@ public class TilmeldingGUI extends Application {
                 alert.showAndWait();
                 return;
             }
-            if(txtAdresse.getText().isEmpty()){
+            if (txtAdresse.getText().isEmpty()) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Adresse");
                 alert.setContentText("Du mangler at indsætte en adresse");
                 alert.showAndWait();
                 return;
             }
-            if(txtTelefon.getText().isEmpty()){
+            if (txtTelefon.getText().isEmpty()) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Telefon");
                 alert.setContentText("Du mangler at indsætte et telefon nr");
                 alert.showAndWait();
                 return;
             }
-            if(txtBy.getText().isEmpty()){
+            if (txtBy.getText().isEmpty()) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("By");
                 alert.setContentText("Du mangler at indsætte et postnr");
                 alert.showAndWait();
                 return;
             }
-            if(txtNavn.getText().isEmpty()){
+            if (txtNavn.getText().isEmpty()) {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Adresse");
                 alert.setContentText("Du mangler at indsætte et navn");
@@ -525,7 +537,29 @@ public class TilmeldingGUI extends Application {
 
             Deltager deltager = Controller.createDeltager(navn, adresse, cbForedragsholder.isSelected(), afrejseDato, telefon, firmaTlf, by);
 
-            Controller.createTilmelding(valgtKonf, deltager, LocalDate.now());
+            Tilmelding tilmelding = Controller.createTilmelding(valgtKonf, deltager, LocalDate.now());
+            Hotel valgtHotel = cbHotel.getSelectionModel().getSelectedItem();
+            if (valgtHotel != null) {
+                tilmelding.setHotel(valgtHotel);
+                for (javafx.scene.Node node : vboxTillæg.getChildren()) {
+                    if (node instanceof CheckBox) {
+                        CheckBox chk = (CheckBox) node;
+                        if (chk.isSelected()) {
+                            Tillæg valgtTillæg = (Tillæg) chk.getUserData();
+                            tilmelding.addTillæg(valgtTillæg);
+                        }
+                    }
+                }
+            }
+            if (cbLedsager.isSelected() && !tfLedsagerNavn.getText().isEmpty()) {
+                Ledsager nyLedsager = Controller.createLedsager(tfLedsagerNavn.getText());
+
+                for (Udflugt u : lswUdflugter.getSelectionModel().getSelectedItems()) {
+                    nyLedsager.addUdflugt(u);
+                }
+                tilmelding.setLedsager(nyLedsager);
+            }
+
 
             Alert success = new Alert(AlertType.INFORMATION);
             success.setTitle("Tilmelding bekræftet");
@@ -542,10 +576,7 @@ public class TilmeldingGUI extends Application {
             cbKonference.getSelectionModel().clearSelection();
             cbHotel.getSelectionModel().clearSelection();
             tfLedsagerNavn.clear();
+            cbLedsager.setSelected(false);
         });
     }
 }
-
-
-
-

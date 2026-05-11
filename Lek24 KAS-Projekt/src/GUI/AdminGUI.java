@@ -1,6 +1,5 @@
 package GUI;
 
-
 import Controller.Controller;
 import Model.*;
 import javafx.geometry.Insets;
@@ -10,15 +9,19 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.jspecify.annotations.NullMarked;
-
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-@NullMarked
+
 
 public class AdminGUI extends Stage {
     private ListView<Tilmelding> lstTilmelding;
     private TextArea txatDetaljer;
+    private ListView<Udflugt> lstUdflugt;
+    private TextArea txatDetaljerUdflugt;
+    private ComboBox<Konference> cbKonference;
+    private TextArea txatDetaljerHotel;
 
     public AdminGUI() {
         this.setTitle("KAS - Administration");
@@ -49,19 +52,20 @@ public class AdminGUI extends Stage {
         Label lblKonferenceTitel = new Label("Vælg konference: ");
         lblKonferenceTitel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
 
-        ComboBox<Konference> cbKonference = new ComboBox<>();
-        cbKonference.getItems().setAll(Controller.getKonferencer());
+        cbKonference = new ComboBox<>();
+        cbKonference.setItems(Controller.getKonferencer());
 
 
         lstTilmelding = new ListView<>();
         lstTilmelding.setMaxHeight(150);
 
         cbKonference.setOnAction(event -> {
-           {
+            {
                 Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
-                if(valgtKonf!=null) {
-                    lstTilmelding.getItems().setAll(valgtKonf.getTilmeldinger());
-                    }
+
+                lstTilmelding.getItems().setAll(valgtKonf.getTilmeldinger());
+                lstUdflugt.getItems().setAll(valgtKonf.getUdflugter());
+                txatDetaljerUdflugt.clear();
             }
         });
 
@@ -80,20 +84,45 @@ public class AdminGUI extends Stage {
         });
 
         Button fjern = new Button("Fjern tilmelding");
-        Tilmelding t = lstTilmelding.getSelectionModel().getSelectedItem();
-        Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
         fjern.setOnMouseClicked(event -> {
-            Controller.removeTilmelding(t);
-            lstTilmelding.getItems().setAll(valgtKonf.getTilmeldinger());
-            txatDetaljer.clear();
+            Tilmelding t = lstTilmelding.getSelectionModel().getSelectedItem();
+            Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
+            if (t != null && valgtKonf != null) {
+                Controller.removeTilmelding(t);
+                valgtKonf.removeTilmelding(t);
+                lstTilmelding.getItems().setAll(valgtKonf.getTilmeldinger());
+                txatDetaljer.clear();
+            }
         });
 
-        vboxVenstre.getChildren().addAll(lblKonferenceTitel,cbKonference,lblListeTitel, lstTilmelding, lblDetaljeTitel, txatDetaljer, fjern);
+        Button btnVisUdflugter = new Button("Vis udflugtsliste");
+        btnVisUdflugter.setOnAction(event -> {
+            Konference valgtKonf = cbKonference.getSelectionModel().getSelectedItem();
+            if (valgtKonf != null) {
+                String tekst = oversigtUdflugt(valgtKonf);
+                visOversigt(tekst, valgtKonf);
+            } else {
+                visFejl("Ingen konference", "Vælg en konference for at se udflugter.");
+            }
+        });
+        gemHotelFil();
+
+        VBox vBoxHotel = VisHotel();
+        vboxVenstre.getChildren().addAll(lblKonferenceTitel, cbKonference, lblListeTitel, lstTilmelding, lblDetaljeTitel, txatDetaljer, fjern, btnVisUdflugter,vBoxHotel);
         pane.add(vboxVenstre, 0, 0);
 
         // Registrer Konference
         VBox vboxHøjre = registrerKonferenceBoks();
         pane.add(vboxHøjre, 1, 0);
+
+        VBox vboxUdflugt = visUdlugtOgLedsager();
+        pane.add(vboxUdflugt, 0, 1);
+
+
+
+        lstUdflugt.getSelectionModel().selectedItemProperty().addListener((_, _, nyU) -> {
+            visUdflugtDetaljer(nyU);
+        });
     }
 
     // Metode  til nye konferencer
@@ -141,7 +170,6 @@ public class AdminGUI extends Stage {
         lswHoteller.setPrefHeight(100);
         lswHoteller.getItems().setAll(Controller.getHoteller());
         lswHoteller.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
 
 
         // Til at gemme udflugterne i indtil konferencen er lavet
@@ -200,7 +228,7 @@ public class AdminGUI extends Stage {
                 for (Udflugt u : midlertidigUdflugter) {
                     nyKonf.addUdflugt(u);
                 }
-                for(Hotel h : lswHoteller.getSelectionModel().getSelectedItems()) {
+                for (Hotel h : lswHoteller.getSelectionModel().getSelectedItems()) {
                     nyKonf.addHotel(h);
                 }
 
@@ -220,12 +248,10 @@ public class AdminGUI extends Stage {
                 midlertidigUdflugter.clear();
                 lswNyeUdflugter.getItems().clear();
                 lswHoteller.getSelectionModel().clearSelection();
-
             } catch (NumberFormatException e) {
                 visFejl("Pris fejl", "Prisen må kun indeholde tal.");
             }
         });
-
 
 
         boks.getChildren().addAll(
@@ -311,5 +337,130 @@ public class AdminGUI extends Stage {
         alert.setHeaderText(null);
         alert.setContentText(besked);
         alert.showAndWait();
+    }
+
+    private VBox visUdlugtOgLedsager() {
+        VBox vboxUdflugt = new VBox(15);
+
+        Label lblUdflugt = new Label("Udflugter");
+        lblUdflugt.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+
+        lstUdflugt = new ListView<>();
+        lstUdflugt.setPrefHeight(75);
+
+        Label lblDetaljeTitel = new Label("Ledsagerne koblet på udflugten");
+        lblDetaljeTitel.setStyle("-fx-font-weight: bold;");
+
+        txatDetaljerUdflugt = new TextArea();
+        txatDetaljerUdflugt.setEditable(false);//Så man ikke kan slette eller skrive i feltet
+        txatDetaljerUdflugt.setPromptText("Vælg en udflugt for at se ledsagerne...");
+        txatDetaljerUdflugt.setPrefHeight(300);
+
+        vboxUdflugt.getChildren().addAll(lblUdflugt, lstUdflugt, lblDetaljeTitel, txatDetaljerUdflugt);
+        return vboxUdflugt;
+    }
+
+    private void visUdflugtDetaljer(Udflugt udflugt) {
+        txatDetaljerUdflugt.setText(udflugt.getLedsagere().toString());
+
+    }
+
+    private String oversigtUdflugt(Konference konference) {
+        String tekst = "UDFLUGTER: " + konference.getNavn() + "\n";
+        tekst += "--------------------------------------------------\n";
+        for (Udflugt u : konference.getUdflugter()) {
+            tekst+= "Udflugt: " + u.getNavn() + "\n";
+            for (Tilmelding t : konference.getTilmeldinger()) {
+                Ledsager ledsager = t.getLedsager();
+                Deltager deltager = t.getDeltager();
+
+                if (ledsager != null && ledsager.getUdflugter().contains(u)) {
+                    tekst += "  - " + ledsager.getNavn() + " (" + deltager.getTelefonNr() + " " + deltager.getNavn() + ")\n";
+                }
+            }
+
+        }
+        return tekst;
+    }
+
+    private void visOversigt(String oversigt, Konference konference) {
+        Stage popupVindue = new Stage();
+        popupVindue.setTitle("Udflugtsoversigt");
+
+        TextArea txatOversigt = new TextArea(oversigt);
+        txatOversigt.setEditable(false);
+        txatOversigt.setPrefSize(400, 500);
+
+        Button btnGem = new Button("Gem til fil");
+        btnGem.setStyle("-fx-background-color: #6e9eeb; -fx-text-fill: red; -fx-font-weight: bold;");
+
+        btnGem.setOnAction(e -> {
+            try {
+                String fileName = konference.getNavn() + "_udflugter" + ".txt";
+                PrintWriter out = new PrintWriter(fileName);
+                out.println(oversigt);
+                out.close();
+            } catch (FileNotFoundException ex) {
+                visFejl("Filfejl", "Der skete en fejl.");
+            }
+        });
+
+        VBox vbox = new VBox(10, txatOversigt, btnGem);
+        vbox.setPadding(new Insets(15));
+
+        Scene scene = new Scene(vbox);
+        popupVindue.setScene(scene);
+        popupVindue.show();
+    }
+    private VBox VisHotel(){
+        VBox vboxHotel = new VBox(15);
+
+        Label lblHotel = new Label("Hoteller");
+        lblHotel.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+
+        txatDetaljerHotel = new TextArea();
+        txatDetaljerHotel.setEditable(false);//Så man ikke kan slette eller skrive i feltet
+        txatDetaljerHotel.setPromptText("Vælg en udflugt for at se ledsagerne...");
+        txatDetaljerHotel.setPrefHeight(300);
+        txatDetaljerHotel.setText(hotelOversigt());
+        Button btnGem = gemHotelFil();
+        vboxHotel.getChildren().addAll(lblHotel, txatDetaljerHotel,btnGem);
+        return vboxHotel;
+    }
+    private String hotelOversigt(){
+        String tekst = "";
+        for (String s : Controller.hotelList()) {
+            tekst += s + "\n";
+
+            for (Tilmelding t : Controller.getTilmeldinger()) {
+                if (t.getHotel() != null &&
+                        s.equals(t.getHotel().getNavn())) {
+
+                    tekst += "   " + t.getDeltager().getNavn() + "\n";
+
+                    if (t.getLedsager() != null) {
+                        tekst += "      Ledsager: "
+                                        + t.getLedsager().getNavn() + "\n";
+                    }
+                }
+            }
+        }
+        return tekst;
+    }
+    private Button gemHotelFil(){
+        Button btnGem = new Button("Gem hoteloversigt til fil");
+        btnGem.setStyle("-fx-background-color: #6e9eeb; -fx-text-fill: red; -fx-font-weight: bold;");
+
+        btnGem.setOnAction(e -> {
+            try {
+                String fileName = "HotelOversigt.txt";
+                PrintWriter out = new PrintWriter(fileName);
+                out.println(hotelOversigt());
+                out.close();
+            } catch (FileNotFoundException ex) {
+                visFejl("Filfejl", "Der skete en fejl.");
+            }
+        });
+        return btnGem;
     }
 }

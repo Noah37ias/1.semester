@@ -1,21 +1,20 @@
 package Model;
 
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+
 @NullMarked
-
 public class Deltager extends Person{
-    private String adresse;
-    private String by;
-    private String firmaTlfNr;
-    private String telefonNr;
-    private LocalDate afrejseDato;
-    private Boolean foredragsholder;
-    private ArrayList<Tilmelding> tilmeldinger = new ArrayList<>();
+    private final String adresse;
+    private final String by;
+    private final String firmaTlfNr;
+    private final String telefonNr;
+    private final LocalDate afrejseDato;
+    private final Boolean foredragsholder;
 
-    public Deltager(String navn, String adresse, Boolean foredragsholder, LocalDate afrejseDato, String telefonNr, String firmaTlfNr, String by) {
+    public Deltager(String navn, String adresse, Boolean foredragsholder, LocalDate afrejseDato, String telefonNr, @Nullable String firmaTlfNr, String by) {
         super(navn);
         this.adresse = adresse;
         this.foredragsholder = foredragsholder;

@@ -1,15 +1,14 @@
 package Model;
 
 import org.jspecify.annotations.NullMarked;
-
 import java.util.ArrayList;
 @NullMarked
 
 public class Hotel {
-    private String navn;
-    private double pris;
-    private double dobbeltPris;
-    private ArrayList<Tillæg> tillæg = new ArrayList<>();
+    private final String navn;
+    private final double pris;
+    private final double dobbeltPris;
+    private final ArrayList<Tillæg> tillæg = new ArrayList<>();
 
     public Hotel(double pris, String navn, double dobbeltPris) {
         this.pris = pris;

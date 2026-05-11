@@ -1,13 +1,10 @@
 package Model;
-
 import org.jspecify.annotations.NullMarked;
-
 import java.util.ArrayList;
-@NullMarked
 
+@NullMarked
 public class Ledsager extends Person {
-    private Tilmelding tilmelding;
-    private ArrayList<Udflugt> udflugter = new ArrayList<>();
+    private final ArrayList<Udflugt> udflugter = new ArrayList<>();
 
     public Ledsager(String navn) {
         super(navn);
@@ -15,6 +12,7 @@ public class Ledsager extends Person {
 
     public void addUdflugt(Udflugt udflugt) {
         udflugter.add(udflugt);
+        udflugt.addLedsager(this);
     }
 
     public double totalPrisUdflugter() {
@@ -24,9 +22,10 @@ public class Ledsager extends Person {
         }
         return total;
     }
-
-
     public ArrayList<Udflugt> getUdflugter() {
         return udflugter;
+    }
+    public String toString(){
+        return getNavn();
     }
 }

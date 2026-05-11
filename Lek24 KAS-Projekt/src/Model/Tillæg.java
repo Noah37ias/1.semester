@@ -3,12 +3,11 @@ package Model;
 import org.jspecify.annotations.NullMarked;
 
 @NullMarked
-
 public class Tillæg {
-    private String navn;
-    private Double pris;
+    private final String navn;
+    private final double pris;
 
-    public Tillæg(String navn,Double pris){
+    public Tillæg(String navn,double pris){
         this.navn = navn;
         this.pris = pris;
     }
@@ -17,12 +16,5 @@ public class Tillæg {
     }
     public String getNavn(){
         return navn;
-    }
-    @Override
-    public String toString() {
-        return "Tillæg{" +
-                "navn='" + navn + '\'' +
-                ", pris=" + pris +
-                '}';
     }
 }

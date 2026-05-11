@@ -2,21 +2,20 @@ package Model;
 
 import javafx.collections.ObservableList;
 import org.jspecify.annotations.NullMarked;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 
 @NullMarked
 public class Konference {
-    private String navn;
-    private String adresse;
-    private LocalDate startDato;
-    private LocalDate slutDato;
-    private double pris;
-    private ArrayList<Hotel> hoteller;
-    private ArrayList<Udflugt> udflugter = new ArrayList<>();
-    private ObservableList<Tilmelding> tilmeldinger = FXCollections.observableArrayList();
+    private final String navn;
+    private final String adresse;
+    private final LocalDate startDato;
+    private final LocalDate slutDato;
+    private final double pris;
+    private final ArrayList<Hotel> hoteller;
+    private final ArrayList<Udflugt> udflugter = new ArrayList<>();
+    private final ObservableList<Tilmelding> tilmeldinger = FXCollections.observableArrayList();
 
     public Konference(String navn, LocalDate startDato, LocalDate slutDato, String adresse, double pris) {
         this.navn = navn;
@@ -31,9 +30,6 @@ public class Konference {
     }
     public LocalDate getStartDato(){
         return startDato;
-    }
-    public LocalDate getSlutDato(){
-        return slutDato;
     }
     public String getAdresse(){
         return adresse;
@@ -60,7 +56,9 @@ public class Konference {
     public void addTilmelding(Tilmelding t){
         tilmeldinger.add(t);
     }
-
+    public void removeTilmelding(Tilmelding t){
+        tilmeldinger.remove(t);
+    }
     @Override
     public String toString() {
         return navn +" - " + pris + "pr/dag" + " - " + startDato + "/"+slutDato;

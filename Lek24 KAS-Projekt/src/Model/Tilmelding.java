@@ -2,20 +2,20 @@ package Model;
 
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+
 @NullMarked
 public class Tilmelding {
-    private Deltager deltager;
-    private Konference konference;
+    private final Deltager deltager;
+    private final Konference konference;
     @Nullable
     private Ledsager ledsager;
     @Nullable
     private Hotel hotel;
-    private LocalDate bestillingsdato;
-    private ArrayList<Tillæg> tillæg = new ArrayList<>();
+    private final LocalDate bestillingsdato;
+    private final ArrayList<Tillæg> tillæg = new ArrayList<>();
 
 
     public Tilmelding(Konference konference, Deltager deltager, LocalDate bestillingsdato) {
