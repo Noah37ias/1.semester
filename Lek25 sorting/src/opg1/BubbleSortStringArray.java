@@ -9,23 +9,27 @@ public class BubbleSortStringArray {
         navne.add("Noah");
         navne.add("Carsten");
         navne.add("Arian");
-        IO.println(navne.size());
-
+        navne.add("Arian");
+        navne.add("Arian");
+        navne.add("Noah");
+        IO.println(navne);
+        bubbleSort(navne);
+        IO.println(navne);
     }
 
     public static void bubbleSort(ArrayList<String> strings) {
         boolean swapped = true;
-        for (int i = strings.size(); i > 0 && swapped == true; i--) {
+        for (int i = strings.size()-1; i > 0 && swapped == true; i--) {
             swapped = false;
-//            for (int j = 0; j < i; j++) {
-//                if (strings.get(j) > strings.get(j + 1)) {
-//                    // swap arr[j] and arr[j+1]
-//                    int temp = arr[j];
-//                    arr[j] = arr[j + 1];
-//                    arr[j + 1] = temp;
-//                    swapped = true;
-//                }
-//            }
+            for (int j = 0; j < i; j++) {
+                if (strings.get(j).compareToIgnoreCase(strings.get(j + 1))>0) {
+                    //swap arr[j] and arr[j+1]
+                    String temp = strings.get(j);
+                    strings.set(j, strings.get(j + 1));
+                    strings.set(j + 1, temp);
+                    swapped = true;
+                }
+            }
         }
     }
 }
