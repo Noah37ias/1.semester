@@ -5,11 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class FletningAfFiler {
+public class FletningAfFiler2 {
     void main() {
         String fileName1 = "Lek26 Fletning af sekvenser/src/opg4/heltal1";
         String fileName2 = "Lek26 Fletning af sekvenser/src/opg4/heltal2";
-        String fileName3 = "Lek26 Fletning af sekvenser/src/opg4/heltalSamlet";
+        String fileName3 = "Lek26 Fletning af sekvenser/src/opg4/heltalSamlet2";
         mergeFiles(fileName1,fileName2,fileName3);
     }
 
@@ -24,7 +24,7 @@ public class FletningAfFiler {
 
             int tal1 = scan1.nextInt();
             int tal2 = scan2.nextInt();
-            while (tal1 < Integer.MAX_VALUE || tal2 < Integer.MAX_VALUE) {
+            while (scan1.hasNext() || scan2.hasNext()) {
                 if (tal1 < tal2) {
                     writer.println(tal1);
                     tal1 = scan1.nextInt();
@@ -45,4 +45,3 @@ public class FletningAfFiler {
 
     }
 }
-
