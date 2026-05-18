@@ -13,7 +13,7 @@ public class Konference {
     private final LocalDate startDato;
     private final LocalDate slutDato;
     private final double pris;
-    private final ArrayList<Hotel> hoteller;
+    private final ArrayList<Hotel> hoteller = new ArrayList<>();
     private final ArrayList<Udflugt> udflugter = new ArrayList<>();
     private final ObservableList<Tilmelding> tilmeldinger = FXCollections.observableArrayList();
 
@@ -23,7 +23,6 @@ public class Konference {
         this.startDato = startDato;
         this.adresse = adresse;
         this.pris = pris;
-        this.hoteller = new ArrayList<>();
     }
     public double getPris(){
         return pris;

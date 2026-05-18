@@ -13,11 +13,6 @@ public class Customer implements Comparable<Customer>{
     }
     @Override
     public int compareTo(Customer other) {
-        int comparedNames = this.name.compareTo(other.name);
-        if(comparedNames!=0){
-            return comparedNames;
-        }
-        return Integer.compare(this.money,other.money);
-
+        return this.name.compareTo(other.name);
     }
 }

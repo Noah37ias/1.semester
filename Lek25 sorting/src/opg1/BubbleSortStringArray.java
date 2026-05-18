@@ -12,9 +12,9 @@ public class BubbleSortStringArray {
         navne.add("Arian");
         navne.add("Arian");
         navne.add("Noah");
-        IO.println(navne);
+       // IO.println(navne);
         bubbleSort(navne);
-        IO.println(navne);
+      //  IO.println(navne);
     }
 
     public static void bubbleSort(ArrayList<String> strings) {
@@ -28,6 +28,7 @@ public class BubbleSortStringArray {
                     strings.set(j, strings.get(j + 1));
                     strings.set(j + 1, temp);
                     swapped = true;
+                    IO.println(strings);
                 }
             }
         }
