@@ -36,7 +36,7 @@ public class TilmeldingGUI extends Application {
     private TextField txtAdresse;
     private TextField txtBy;
     private TextField txtTelefon;
-    private Label lblKonfAdresse;
+    public Label lblKonfAdresse;
     public Button btnGodkend;
 
     @Override

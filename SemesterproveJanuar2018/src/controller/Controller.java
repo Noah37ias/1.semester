@@ -19,6 +19,7 @@ public abstract class Controller {
     }
     public static Hold createHold(String betegnelse, String holdleder, Uddannelse uddanelse){
         Hold hold = new Hold(betegnelse,holdleder,uddanelse);
+        uddanelse.addHold(hold);
         return hold;
     }
     public static Uddannelse createUddannelse(String navn){
