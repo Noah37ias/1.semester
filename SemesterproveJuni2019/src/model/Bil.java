@@ -24,7 +24,8 @@ public class Bil {
     }
 
     public ArrayList<Lift> getLifts() {
-        return lifts;
+        return new ArrayList<>(lifts);//retunerer en kopi af listen,
+        // for at undgå den forekspempel bliver clearet i app
     }
 
     public int indtægt(){

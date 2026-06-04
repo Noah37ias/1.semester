@@ -68,9 +68,9 @@ public class App {
         Controller.addHotelTilKonference(k1, h3);
 
         Tilmelding tilmelding4 = Controller.createTilmelding(k1, d4, LocalDate.now());
+        Controller.addTillægTilTilmelding(t1,tilmelding4);
         tilmelding4.setHotel(h1);
         tilmelding4.setLedsager(l2);
-        tilmelding4.addTillæg(t1);
 
         Tilmelding tilmelding5 = Controller.createTilmelding(k1, d5, LocalDate.now());
         tilmelding5.setHotel(h1);

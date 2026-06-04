@@ -151,5 +151,9 @@ public abstract class Controller {
     public static ArrayList<Tilmelding> getTilmeldinger() {
         return Storage.getTilmeldinger();
     }
+
+    public static void addTillægTilTilmelding(Tillæg tillæg, Tilmelding tilmelding){
+        tilmelding.addTillæg(tillæg);
+    }
 }
 
