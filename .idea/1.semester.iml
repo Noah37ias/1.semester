@@ -3,10 +3,12 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/Semesterprover/SemesterproveJanuar2018/src" isTestSource="false" />
+      <sourceFolder url="file://$USER_HOME$/Downloads/SemesterproveJun2024/SemesterproveJun2024" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/SemesterproveJanuar2018/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Semesterprovejun2024/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jspecify" level="application" />
+    <orderEntry type="library" exported="" name="jspecify" level="application" />
   </component>
 </module>
