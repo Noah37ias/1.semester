@@ -19,17 +19,18 @@ public class Controller {
      * Opretter en booking og retunerer den
      * pre:
      */
-    public static Booking createBooking(int antalPassagerer, String kundeNavn, int bookingNr) {
-        Booking booking = new Booking(antalPassagerer,kundeNavn,bookingNr);
+    public static Booking createBooking(int antalPassagerer, String kundeNavn,Afgang afgang) {
+        Booking booking = new Booking(antalPassagerer,kundeNavn,afgang);
         Storage.storeBooking(booking);
+        booking.setAfgang(afgang);
         return booking;
     }
     /*
      * Opretter en færge og retunerer den
      * pre:
      */
-    public static Færge createFærge() {
-        Færge færge = new Færge();
+    public static Færge createFærge(String navn, int maxAntalPassagerer, int maxAntalBiler, int maxAntalLastbiler) {
+        Færge færge = new Færge(navn,maxAntalPassagerer,maxAntalBiler,maxAntalLastbiler);
         Storage.storeFærge(færge);
         return færge;
     }
@@ -37,9 +38,9 @@ public class Controller {
      * Opretter en afgang og retunerer den
      * pre:
      */
-    public static Køretøj createKøretøj() {
-        Deltager deltager = new Deltager();
-        Storage.storeDeltager(deltager);
+    public static Køretøj createKøretøj(String regNummer,KøretøjsKategori køretøjsKategori) {
+        Køretøj køretøj = new Køretøj(regNummer,køretøjsKategori);
+        Storage.storeKøretøj(køretøj);
         return køretøj;
     }
 }
