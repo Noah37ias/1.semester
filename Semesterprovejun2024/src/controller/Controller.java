@@ -5,7 +5,7 @@ import storage.Storage;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Controller {
+public abstract class Controller {
     public static Hold createHold(String navn){
         Hold hold = new Hold(navn);
         Storage.storeHold(hold);
