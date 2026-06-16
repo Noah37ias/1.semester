@@ -10,7 +10,7 @@ public class Afgang {
     private LocalDate dato;
     private LocalTime klokkeslæt;
     private double grundPris;
-    private ArrayList<Booking> bookings;
+    private ArrayList<Booking> bookings = new ArrayList<>();
     private Færge færge;
 
     public Afgang(Havn fraDestination, Havn tilDestination, LocalDate dato, LocalTime klokkeslæt, double grundPris, Færge færge) {
@@ -26,5 +26,16 @@ public class Afgang {
     }
     public void setFærge(Færge færge){
         this.færge = færge;
+    }
+    public ArrayList<Booking> getBookings(){
+        return bookings;
+    }
+
+    public int antalPassagerer(Afgang afgang){
+        int total = 0;
+        for(Booking bookinger : afgang.bookings){
+            total += bookinger.getAntalPassagerer();
+        }
+        return total;
     }
 }

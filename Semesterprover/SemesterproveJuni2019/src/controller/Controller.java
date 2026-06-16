@@ -34,18 +34,29 @@ public abstract class Controller {
      * Opretter en booking og retunerer den
      * pre:
      */
+//    public static Booking createBooking(String passager, LocalTime opsamlingstid, String opsamlingsted, Lift lift) {
+//        try {
+//            if (!lift.LedigPlads()) throw new RuntimeException();
+//            {
+//                Booking booking = new Booking(passager, opsamlingstid, opsamlingsted, lift);
+//                lift.addBooking(booking);
+//                return booking;
+//            }
+//        } catch (RuntimeException ex) {
+//            System.out.println("IKKE FLERE LEDIGE PLADSER!");
+//            throw ex;
+//        }
+//    }
     public static Booking createBooking(String passager, LocalTime opsamlingstid, String opsamlingsted, Lift lift) {
-        try {
-            if (!lift.LedigPlads()) throw new RuntimeException();
-            {
-                Booking booking = new Booking(passager, opsamlingstid, opsamlingsted, lift);
-                lift.addBooking(booking);
-                return booking;
-            }
-        } catch (RuntimeException ex) {
-            System.out.println("IKKE FLERE LEDIGE PLADSER!");
-            throw ex;
+        // 1. Tjek for fejl (fail-fast) og smid en exception MED en besked
+        if (!lift.LedigPlads()) {
+            throw new RuntimeException("IKKE FLERE LEDIGE PLADSER!");
         }
+
+        // 2. Hvis der er plads, kører koden automatisk videre hertil
+        Booking booking = new Booking(passager, opsamlingstid, opsamlingsted, lift);
+        lift.addBooking(booking);
+        return booking;
     }
 
     /*

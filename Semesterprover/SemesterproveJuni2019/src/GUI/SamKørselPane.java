@@ -2,7 +2,6 @@ package GUI;
 
 import controller.Controller;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -17,11 +16,7 @@ import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 
-import java.awt.*;
-import java.time.LocalDate;
 import java.time.LocalTime;
-
-import javafx.scene.control.*;
 
 
 public class SamKørselPane extends Application {

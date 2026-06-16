@@ -8,4 +8,8 @@ public class Køretøj {
         this.regNummer = regNummer;
         this.køretøjsKategori = køretøjsKategori;
     }
+
+    public KøretøjsKategori getKøretøjsKategori(){
+        return køretøjsKategori;
+    }
 }
