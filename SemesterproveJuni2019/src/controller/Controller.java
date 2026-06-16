@@ -63,9 +63,9 @@ public abstract class Controller {
      * Opretter en anbefaling og retunerer den
      * pre:
      */
-    public static Anbefaling createAnbefaling(Stjerner stjerner, String kommentar) {
+    public static Anbefaling createAnbefaling(Stjerner stjerner, String kommentar, Booking booking) {
         Anbefaling anbefaling = new Anbefaling(stjerner, kommentar);
-
+        booking.setAnbefaling(anbefaling);
         return anbefaling;
     }
     public static ArrayList<Lift> liftPåDato(LocalDate dato){

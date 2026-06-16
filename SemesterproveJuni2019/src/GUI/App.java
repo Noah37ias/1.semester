@@ -26,13 +26,9 @@ public class App {
         Booking booking2 = Controller.createBooking("Karina", LocalTime.of(20,15),"Banegården",l2);
         Booking booking3 = Controller.createBooking("Camilla", LocalTime.of(10,10),"Musikhuset",l3);
 
-        Anbefaling anbefaling1 = Controller.createAnbefaling(Stjerner.FEM,"God");
-        Anbefaling anbefaling2 = Controller.createAnbefaling(Stjerner.FIRE,"God");
-        Anbefaling anbefaling3 = Controller.createAnbefaling(Stjerner.FEM,"Meget God");
-
-        Controller.setAnbefaling(booking1,anbefaling1);
-        Controller.setAnbefaling(booking2,anbefaling2);
-        Controller.setAnbefaling(booking3,anbefaling3);
+        Controller.createAnbefaling(Stjerner.FEM,"God",booking1);
+        Controller.createAnbefaling(Stjerner.FIRE,"God",booking2);
+        Controller.createAnbefaling(Stjerner.FEM,"Meget God",booking3);
 
         IO.println(Arrays.toString(Controller.anbefalingFrekvens()));
 
